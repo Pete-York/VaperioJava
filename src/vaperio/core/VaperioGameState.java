@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 public class VaperioGameState implements AbstractGameState {
     private int juice;
     private List<Ralph> ralphs;
-    private Point margePosition;
+    private Marge marge;
     private Point shipPosition;
     private Point shipVelocity;
     private boolean isNether;
-
+    private VaperioParams gameParams;
 
     public VaperioGameState(){
-        this.margePosition = new Point();
+        this.marge = new Marge();
         this.shipPosition = new Point();
         this.shipVelocity = new Point();
         this.ralphs = new ArrayList<Ralph>();
@@ -25,8 +25,8 @@ public class VaperioGameState implements AbstractGameState {
         this.isNether = false;
     }
 
-    public VaperioGameState(Point margePosition, Point shipPosition, Point shipVelocity, List<Ralph> ralphs, int juice, boolean isNether){
-        this.margePosition = margePosition;
+    public VaperioGameState(Marge marge, Point shipPosition, Point shipVelocity, List<Ralph> ralphs, int juice, boolean isNether){
+        this.marge = marge;
         this.shipPosition = shipPosition;
         this.shipVelocity = shipVelocity;
         this.ralphs = ralphs;
@@ -36,13 +36,13 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public AbstractGameState copy() {
-        Point newMargePosition = new Point(margePosition.x, margePosition.y);
+        Marge newMarge = marge.clone();
         Point newShipPosition = new Point(shipPosition.x, shipPosition.y);
         Point newShipVelocity = new Point(shipVelocity.x, shipPosition.y);
         List<Ralph> newRalphs = ralphs.stream()
                 .map(Ralph::clone)
                 .collect(Collectors.toList());
-        return new VaperioGameState(newMargePosition, newShipPosition, newShipVelocity, newRalphs, this.juice, this.isNether);
+        return new VaperioGameState(newMarge, newShipPosition, newShipVelocity, newRalphs, this.juice, this.isNether);
     }
 
     @Override
@@ -63,5 +63,9 @@ public class VaperioGameState implements AbstractGameState {
     @Override
     public boolean isTerminal() {
         return false;
+    }
+
+    public void setGameParams(VaperioParams vaperioParams) {
+        this.gameParams = vaperioParams;
     }
 }
