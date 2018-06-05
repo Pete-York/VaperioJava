@@ -6,12 +6,12 @@ import java.util.Random;
 public class Marge implements Cloneable{
     private final Random random = new Random();
 
-    private int speed = 300;
-    private int spikeSpeed = 8000;
-    private int returnSpeed = 3000;
-    private int distanceThreshold = 100;
-    private int spikeHeight = 7000;
-    private int spikeSustainFrames = 60 * 2;
+    private final int speed;
+    private final int spikeSpeed;
+    private final int returnSpeed;
+    private final int distanceThreshold;
+    private final int spikeHeight;
+    private final int spikeSustainFrames;
 
     private Point position;
 
@@ -24,14 +24,36 @@ public class Marge implements Cloneable{
     private boolean spiking = false;
     private int spikeSustainedFrames = 0;
 
-    public Marge() {
+    public Marge(VaperioParams vaperioParams) {
+        this.speed = vaperioParams.margeGroundSpeed;
+        this.spikeSpeed = vaperioParams.margeSpikeSpeed;
+        this.returnSpeed = vaperioParams.margeReturnSpeed;
+        this.distanceThreshold = vaperioParams.margeDistanceThreshold;
+        this.spikeHeight = vaperioParams.margeSpikeHeight;
+        this.spikeSustainFrames = vaperioParams.margeSpikeSustainFrames;
+
         this.position = new Point();
         this.currentBehaviour = MargeBehaviour.APPROACHING;
     }
 
-    public Marge(Point position, MargeBehaviour currentBehaviour) {
-        this.position = position;
-        this.currentBehaviour = currentBehaviour;
+    public Marge(Marge marge) {
+        this.speed = marge.speed;
+        this.spikeSpeed = marge.spikeSpeed;
+        this.returnSpeed = marge.returnSpeed;
+        this.distanceThreshold = marge.distanceThreshold;
+        this.spikeHeight = marge.spikeHeight;
+        this.spikeSustainFrames = marge.spikeSustainFrames;
+
+        this.position = new Point(marge.position.x, marge.position.y);
+
+        this.currentBehaviour = marge.currentBehaviour;
+        this.waitPosition = marge.waitPosition;
+        this.wobbleTargetPosition = marge.wobbleTargetPosition;
+        this.wobbleCount = marge.wobbleCount;
+        this.wobbleNumber = marge.wobbleNumber;
+        this.flip = marge.flip;
+        this.spiking = marge.spiking;
+        this.spikeSustainedFrames = marge.spikeSustainedFrames;
     }
 
     public void next(Point spaceshipPosition){
@@ -85,7 +107,7 @@ public class Marge implements Cloneable{
 
     private void getWobbleTarget(){
         double wobbleDistance = random.nextDouble() * 500;
-        wobbleTargetPosition = (int) (position.x + wobbleDistance * flip);
+        wobbleTargetPosition = (int) (waitPosition + wobbleDistance * flip);
         flip *= -1;
     }
 
@@ -123,6 +145,6 @@ public class Marge implements Cloneable{
 
     @Override
     public Marge clone(){
-        return new Marge(new Point(position.x, position.y), this.currentBehaviour);
+        return new Marge(this);
     }
 }
