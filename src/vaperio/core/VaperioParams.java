@@ -3,7 +3,7 @@ package vaperio.core;
 public class VaperioParams {
     // Spaceship Movement
     public int spaceshipDrag;
-    public int getSpaceshipThrust;
+    public int spaceshipthrust;
     public int lagDuration;
 
     // Health

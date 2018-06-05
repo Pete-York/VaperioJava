@@ -11,24 +11,22 @@ public class VaperioGameState implements AbstractGameState {
     private int juice;
     private List<Ralph> ralphs;
     private Marge marge;
-    private Point shipPosition;
-    private Point shipVelocity;
+    private Spaceship spaceship;
     private boolean isNether;
     private VaperioParams gameParams;
 
-    public VaperioGameState(){
-        this.marge = new Marge();
-        this.shipPosition = new Point();
-        this.shipVelocity = new Point();
+    public VaperioGameState(VaperioParams gameParams){
+        this.marge = new Marge(gameParams);
+        this.spaceship = new Spaceship(gameParams);
         this.ralphs = new ArrayList<Ralph>();
         this.juice = 60;
         this.isNether = false;
+        this.gameParams = gameParams;
     }
 
-    public VaperioGameState(Marge marge, Point shipPosition, Point shipVelocity, List<Ralph> ralphs, int juice, boolean isNether){
+    public VaperioGameState(Marge marge, Spaceship spaceship, List<Ralph> ralphs, int juice, boolean isNether){
         this.marge = marge;
-        this.shipPosition = shipPosition;
-        this.shipVelocity = shipVelocity;
+        this.spaceship = spaceship;
         this.ralphs = ralphs;
         this.juice = juice;
         this.isNether = isNether;
@@ -36,13 +34,7 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public AbstractGameState copy() {
-        Marge newMarge = marge.clone();
-        Point newShipPosition = new Point(shipPosition.x, shipPosition.y);
-        Point newShipVelocity = new Point(shipVelocity.x, shipPosition.y);
-        List<Ralph> newRalphs = ralphs.stream()
-                .map(Ralph::clone)
-                .collect(Collectors.toList());
-        return new VaperioGameState(newMarge, newShipPosition, newShipVelocity, newRalphs, this.juice, this.isNether);
+        return null;
     }
 
     @Override
