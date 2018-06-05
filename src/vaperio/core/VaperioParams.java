@@ -2,9 +2,9 @@ package vaperio.core;
 
 public class VaperioParams {
     // Spaceship Movement
-    public float spaceshipDrag;
-    public float getSpaceshipThrust;
-    public float lagDuration;
+    public int spaceshipDrag;
+    public int getSpaceshipThrust;
+    public int lagDuration;
 
     // Health
     public int playerStartingHealth;
@@ -18,4 +18,5 @@ public class VaperioParams {
 
     // Other
     public int ralphSpawnRate;
+    public int margeSpeed;
 }
