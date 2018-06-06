@@ -13,6 +13,7 @@ public class VaperioGameState implements AbstractGameState {
     private Marge marge;
     private Spaceship spaceship;
     private boolean isNether;
+
     private VaperioParams gameParams;
 
     public VaperioGameState(VaperioParams gameParams){

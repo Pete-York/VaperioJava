@@ -6,18 +6,18 @@ import java.util.Random;
 public class Marge implements Cloneable{
     private final Random random = new Random();
 
-    private final int speed;
-    private final int spikeSpeed;
-    private final int returnSpeed;
-    private final int distanceThreshold;
-    private final int spikeHeight;
+    private final float speed;
+    private final float spikeSpeed;
+    private final float returnSpeed;
+    private final float distanceThreshold;
+    private final float spikeHeight;
     private final int spikeSustainFrames;
 
-    private Point position;
+    private FloatPoint position;
 
     private MargeBehaviour currentBehaviour;
-    private int waitPosition;
-    private int wobbleTargetPosition;
+    private float waitPosition;
+    private float wobbleTargetPosition;
     private int wobbleCount = 0;
     private int wobbleNumber = 3;
     private int flip = 1;
@@ -32,7 +32,7 @@ public class Marge implements Cloneable{
         this.spikeHeight = vaperioParams.margeSpikeHeight;
         this.spikeSustainFrames = vaperioParams.margeSpikeSustainFrames;
 
-        this.position = new Point();
+        this.position = new FloatPoint(0f, 0f);
         this.currentBehaviour = MargeBehaviour.APPROACHING;
     }
 
@@ -44,7 +44,7 @@ public class Marge implements Cloneable{
         this.spikeHeight = marge.spikeHeight;
         this.spikeSustainFrames = marge.spikeSustainFrames;
 
-        this.position = new Point(marge.position.x, marge.position.y);
+        this.position = new FloatPoint(marge.position.x, marge.position.y);
 
         this.currentBehaviour = marge.currentBehaviour;
         this.waitPosition = marge.waitPosition;
@@ -56,7 +56,7 @@ public class Marge implements Cloneable{
         this.spikeSustainedFrames = marge.spikeSustainedFrames;
     }
 
-    public void next(Point spaceshipPosition){
+    public void next(FloatPoint spaceshipPosition){
         switch (currentBehaviour){
             case APPROACHING:
                 approach(spaceshipPosition);
@@ -79,15 +79,15 @@ public class Marge implements Cloneable{
         }
     }
 
-    private void approach(Point spaceshipPosition){
-        Point margeToSpaceshipVector = new Point(spaceshipPosition.x - position.x, spaceshipPosition.y - position.y);
+    private void approach(FloatPoint spaceshipPosition){
+        FloatPoint margeToSpaceshipVector = new FloatPoint(spaceshipPosition.x - position.x, spaceshipPosition.y - position.y);
         double distance = spaceshipPosition.distance(position);
         double xMovement =  (margeToSpaceshipVector.x / distance) * speed;
         this.position.x = (int) (position.x + xMovement);
     }
 
-    private void finishApproach(Point spaceshipPosition){
-        int distance = Math.abs(spaceshipPosition.x - position.x);
+    private void finishApproach(FloatPoint spaceshipPosition){
+        float distance = Math.abs(spaceshipPosition.x - position.x);
         if(distance < distanceThreshold){
             waitPosition = position.x;
             getWobbleTarget();
@@ -96,7 +96,7 @@ public class Marge implements Cloneable{
     }
 
     private void wobble(){
-        int waitDistance = position.x - wobbleTargetPosition;
+        float waitDistance = position.x - wobbleTargetPosition;
         position.x = position.x + waitDistance * (speed / 10);
         if(Math.abs(waitDistance) < distanceThreshold) {
 
