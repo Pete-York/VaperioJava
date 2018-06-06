@@ -15,4 +15,9 @@ public class Ralph extends Collideable implements Cloneable {
     public Ralph clone() {
         return new Ralph(this.health, this.getPosition(), this.isNether);
     }
+
+    public boolean applyDamage(int damage){
+        health -= damage;
+        return damage <= 0;
+    }
 }

@@ -18,8 +18,8 @@ public class VaperioGameState implements AbstractGameState {
     private VaperioParams gameParams;
 
     public VaperioGameState(VaperioParams gameParams){
-        this.marge = new Marge(gameParams);
-        this.spaceship = new Spaceship(gameParams);
+        this.marge = new Marge(gameParams, new FloatPoint(0f, 0f));
+        this.spaceship = new Spaceship(gameParams, new FloatPoint(0f, 0f));
         this.ralphs = new ArrayList<Ralph>();
         this.juice = 60;
         this.isNether = false;
@@ -71,7 +71,13 @@ public class VaperioGameState implements AbstractGameState {
     }
 
     private boolean checkPlayerBulletCollision(Bullet bullet) {
-
+        for(Ralph ralph : ralphs){
+            if(ralph.checkCollision(bullet)) {
+                boolean ralphDied = ralph.applyDamage(gameParams.playerDamage);
+                if(ralphDied) ralphs.remove(ralph);
+                return false;
+            }
+        }
         return true;
     }
 
