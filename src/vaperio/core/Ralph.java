@@ -1,6 +1,6 @@
 package vaperio.core;
 
-public class Ralph extends AbstractCollideable implements Cloneable {
+public class Ralph extends Collideable implements Cloneable {
     private static final float width = 0.924f;
     private static final float height = 1.56f;
     private int health;

@@ -1,9 +1,37 @@
 package vaperio.core;
 
-public interface Collideable {
-    public FloatPoint getPosition();
+public abstract class Collideable {
+    private FloatPoint position;
+    private final float width;
+    private final float height;
 
-    public float getWidth();
+    public Collideable(FloatPoint position, float width, float height){
+        this.position = position;
+        this.width = width;
+        this.height = height;
+    }
 
-    public float getHeight();
+    public FloatPoint getPosition(){
+        return position;
+    }
+
+    public float getWidth(){
+        return width;
+    }
+
+    public float getHeight(){
+        return height;
+    }
+
+    public boolean checkCollision(Collideable that) {
+        float xDistance = Math.abs(this.position.x - that.getPosition().x);
+        float yDistance = Math.abs(this.position.y - that.getPosition().y);
+        boolean xCollide = xDistance <= this.width / 2 + that.getWidth() / 2;
+        boolean yCollide = yDistance <= this.height / 2 + that.getHeight() / 2;
+        return xCollide && yCollide;
+    }
+
+    public void moveTo(FloatPoint position) {
+        this.position = position;
+    }
 }

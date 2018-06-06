@@ -1,6 +1,6 @@
 package vaperio.core;
 
-public class Spaceship extends AbstractCollideable implements Cloneable {
+public class Spaceship extends Collideable implements Cloneable {
     private final float drag;
     private final float thrust;
     private final int lagDuration;

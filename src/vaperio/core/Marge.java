@@ -2,7 +2,7 @@ package vaperio.core;
 
 import java.util.Random;
 
-public class Marge extends AbstractCollideable implements Cloneable {
+public class Marge extends Collideable implements Cloneable {
     private final Random random = new Random();
     private static final float width = 1.47f;
     private static final float height = 8.82f;

@@ -1,6 +1,6 @@
 package vaperio.core;
 
-public class Bullet extends AbstractCollideable {
+public class Bullet extends Collideable {
     private FloatPoint position;
     private FloatPoint velocity;
     private final boolean isNether;
