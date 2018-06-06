@@ -82,7 +82,7 @@ public class Marge extends Collideable implements Cloneable {
         FloatPoint margeToSpaceshipVector = new FloatPoint(spaceshipPosition.x - position.x, spaceshipPosition.y - position.y);
         double distance = spaceshipPosition.distance(position);
         float xMovement = (float) (margeToSpaceshipVector.x / distance) * speed;
-        moveTo(new FloatPoint(position.x + xMovement, position.y));
+        moveTo(position.x + xMovement, position.y);
     }
 
     private void finishApproach(FloatPoint spaceshipPosition){
@@ -98,7 +98,7 @@ public class Marge extends Collideable implements Cloneable {
     private void wobble(){
         FloatPoint position = getPosition();
         float waitDistance = position.x - wobbleTargetPosition;
-        moveTo(new FloatPoint(position.x + waitDistance * (speed / 10), position.y));
+        moveTo(position.x + waitDistance * (speed / 10), position.y);
         if(Math.abs(waitDistance) < distanceThreshold) {
 
             getWobbleTarget();
@@ -123,7 +123,7 @@ public class Marge extends Collideable implements Cloneable {
     private void spike(){
         FloatPoint position = getPosition();
         if(spiking){
-            moveTo(new FloatPoint(position.x, position.y + spikeSpeed));
+            moveTo(position.x, position.y + spikeSpeed);
             if(position.y >= spikeHeight) {
                 spiking = false;
             }
@@ -140,7 +140,7 @@ public class Marge extends Collideable implements Cloneable {
 
     private void returnToBottom(){
         FloatPoint position = getPosition();
-        moveTo(new FloatPoint(position.x, position.y - returnSpeed));
+        moveTo(position.x, position.y - returnSpeed);
         if(position.y <= 0) {
             currentBehaviour = MargeBehaviour.APPROACHING;
         }

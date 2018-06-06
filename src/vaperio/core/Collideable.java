@@ -31,7 +31,7 @@ public abstract class Collideable {
         return xCollide && yCollide;
     }
 
-    public void moveTo(FloatPoint position) {
+    public void moveTo(float x, float y) {
         this.position = position;
     }
 }
