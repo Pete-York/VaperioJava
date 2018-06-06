@@ -2,8 +2,10 @@ package vaperio.core;
 
 import java.util.Random;
 
-public class Marge implements Cloneable, Collideable {
+public class Marge extends AbstractCollideable implements Cloneable {
     private final Random random = new Random();
+    private static final float width = 1.47f;
+    private static final float height = 8.82f;
 
     private final float speed;
     private final float spikeSpeed;
@@ -11,8 +13,6 @@ public class Marge implements Cloneable, Collideable {
     private final float distanceThreshold;
     private final float spikeHeight;
     private final int spikeSustainFrames;
-
-    private FloatPoint position;
 
     private MargeBehaviour currentBehaviour;
     private float waitPosition;
@@ -23,7 +23,8 @@ public class Marge implements Cloneable, Collideable {
     private boolean spiking = false;
     private int spikeSustainedFrames = 0;
 
-    public Marge(VaperioParams vaperioParams) {
+    public Marge(VaperioParams vaperioParams, FloatPoint position) {
+        super(position, width, height);
         this.speed = vaperioParams.margeGroundSpeed;
         this.spikeSpeed = vaperioParams.margeSpikeSpeed;
         this.returnSpeed = vaperioParams.margeReturnSpeed;
@@ -31,19 +32,17 @@ public class Marge implements Cloneable, Collideable {
         this.spikeHeight = vaperioParams.margeSpikeHeight;
         this.spikeSustainFrames = vaperioParams.margeSpikeSustainFrames;
 
-        this.position = new FloatPoint(0f, 0f);
         this.currentBehaviour = MargeBehaviour.APPROACHING;
     }
 
     public Marge(Marge marge) {
+        super(new FloatPoint(marge.getPosition().x, marge.getPosition().y), width, height);
         this.speed = marge.speed;
         this.spikeSpeed = marge.spikeSpeed;
         this.returnSpeed = marge.returnSpeed;
         this.distanceThreshold = marge.distanceThreshold;
         this.spikeHeight = marge.spikeHeight;
         this.spikeSustainFrames = marge.spikeSustainFrames;
-
-        this.position = new FloatPoint(marge.position.x, marge.position.y);
 
         this.currentBehaviour = marge.currentBehaviour;
         this.waitPosition = marge.waitPosition;
@@ -79,13 +78,15 @@ public class Marge implements Cloneable, Collideable {
     }
 
     private void approach(FloatPoint spaceshipPosition){
+        FloatPoint position = getPosition();
         FloatPoint margeToSpaceshipVector = new FloatPoint(spaceshipPosition.x - position.x, spaceshipPosition.y - position.y);
         double distance = spaceshipPosition.distance(position);
         float xMovement = (float) (margeToSpaceshipVector.x / distance) * speed;
-        this.position = new FloatPoint(position.x + xMovement, position.y);
+        moveTo(new FloatPoint(position.x + xMovement, position.y));
     }
 
     private void finishApproach(FloatPoint spaceshipPosition){
+        FloatPoint position = getPosition();
         float distance = Math.abs(spaceshipPosition.x - position.x);
         if(distance < distanceThreshold){
             waitPosition = position.x;
@@ -95,8 +96,9 @@ public class Marge implements Cloneable, Collideable {
     }
 
     private void wobble(){
+        FloatPoint position = getPosition();
         float waitDistance = position.x - wobbleTargetPosition;
-        this.position = new FloatPoint(position.x + waitDistance * (speed / 10), position.y);
+        moveTo(new FloatPoint(position.x + waitDistance * (speed / 10), position.y));
         if(Math.abs(waitDistance) < distanceThreshold) {
 
             getWobbleTarget();
@@ -119,8 +121,9 @@ public class Marge implements Cloneable, Collideable {
     }
 
     private void spike(){
+        FloatPoint position = getPosition();
         if(spiking){
-            this.position = new FloatPoint(position.x, position.y + spikeSpeed);
+            moveTo(new FloatPoint(position.x, position.y + spikeSpeed));
             if(position.y >= spikeHeight) {
                 spiking = false;
             }
@@ -136,7 +139,8 @@ public class Marge implements Cloneable, Collideable {
     }
 
     private void returnToBottom(){
-        this.position = new FloatPoint(position.x, position.y - returnSpeed);
+        FloatPoint position = getPosition();
+        moveTo(new FloatPoint(position.x, position.y - returnSpeed));
         if(position.y <= 0) {
             currentBehaviour = MargeBehaviour.APPROACHING;
         }
@@ -145,20 +149,5 @@ public class Marge implements Cloneable, Collideable {
     @Override
     public Marge clone(){
         return new Marge(this);
-    }
-
-    @Override
-    public FloatPoint getPosition() {
-        return this.position;
-    }
-
-    @Override
-    public float getWidth() {
-        return 0;
-    }
-
-    @Override
-    public float getHeight() {
-        return 0;
     }
 }

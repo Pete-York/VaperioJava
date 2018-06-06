@@ -1,17 +1,18 @@
 package vaperio.core;
 
-public class Ralph implements Cloneable {
-    public int health;
-    public int position;
-    public boolean isNether;
+public class Ralph extends AbstractCollideable implements Cloneable {
+    private static final float width = 0.924f;
+    private static final float height = 1.56f;
+    private int health;
+    private boolean isNether;
 
-    public Ralph(int health, int position, boolean isNether){
+    public Ralph(int health, FloatPoint position, boolean isNether){
+        super(position, width, height);
         this.health = health;
-        this.position = position;
     }
 
     @Override
     public Ralph clone() {
-        return new Ralph(this.health, this.position, this.isNether);
+        return new Ralph(this.health, this.getPosition(), this.isNether);
     }
 }

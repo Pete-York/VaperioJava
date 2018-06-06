@@ -2,16 +2,17 @@ package vaperio.core;
 
 import ggi.core.AbstractGameState;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class VaperioGameState implements AbstractGameState {
     private int juice;
-    private List<Ralph> ralphs;
-    private Marge marge;
     private Spaceship spaceship;
+    private Marge marge;
+    private List<Ralph> ralphs;
+    private List<Bullet> playerBullets = new ArrayList<Bullet>();
+    private List<Bullet> ralphBullets = new ArrayList<Bullet>();
     private boolean isNether;
 
     private VaperioParams gameParams;
@@ -40,7 +41,38 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public AbstractGameState next(int[] actions) {
+        spaceship.next(actions[0]);
+        marge.next(spaceship.getPosition());
+        checkCollisions();
         return null;
+    }
+
+    private void checkCollisions(){
+        ralphBullets = ralphBullets.stream()
+                .filter(bullet -> checkRalphBulletCollision(bullet))
+                .collect(Collectors.toList());
+
+        if(spaceship.collideWithMarge(marge)) {
+            juice -= gameParams.margeDamage;
+        }
+
+        playerBullets = playerBullets.stream()
+                .filter(bullet -> checkPlayerBulletCollision(bullet))
+                .collect(Collectors.toList());
+    }
+
+    private boolean checkRalphBulletCollision(Bullet bullet) {
+        if(spaceship.checkCollision(bullet)) {
+            ralphBullets.remove(bullet);
+            juice -= gameParams.ralphDamage;
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkPlayerBulletCollision(Bullet bullet) {
+
+        return true;
     }
 
     @Override

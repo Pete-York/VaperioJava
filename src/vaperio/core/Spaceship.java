@@ -1,18 +1,18 @@
 package vaperio.core;
 
-import java.util.List;
+public class Spaceship extends AbstractCollideable implements Cloneable {
+    private final float drag;
+    private final float thrust;
+    private final int lagDuration;
+    private static final float height = 0.5f;
+    private static final float width = 0.6f;
 
-public class Spaceship implements Cloneable {
-    public final float drag;
-    public final float thrust;
-    public final int lagDuration;
-    public final float height = 0.5f;
-    public final float width = 0.6f;
+    private FloatPoint velocity;
 
-    public FloatPoint position;
-    public FloatPoint velocity;
+    private boolean isCollidingWithMarge = false;
 
-    public Spaceship(VaperioParams vaperioParams){
+    public Spaceship(VaperioParams vaperioParams, FloatPoint position){
+        super(position, width, height);
         this.drag = vaperioParams.spaceshipDrag;
         this.thrust = vaperioParams.spaceshipthrust;
         this.lagDuration = vaperioParams.lagDuration;
@@ -30,7 +30,9 @@ public class Spaceship implements Cloneable {
 
     }
 
-    private void checkCollisions(List<Bullet> bulletList, Marge marge){
-
+    public boolean collideWithMarge(Marge marge){
+        boolean wasAlreadyColliding = isCollidingWithMarge;
+        isCollidingWithMarge = checkCollision(marge);
+        return !wasAlreadyColliding && isCollidingWithMarge;
     }
 }
