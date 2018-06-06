@@ -1,8 +1,8 @@
 package vaperio.core;
 
 public class FloatPoint {
-    public float x;
-    public float y;
+    public final float x;
+    public final float y;
 
     public FloatPoint(float x, float y){
         this.x = x;

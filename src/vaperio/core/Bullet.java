@@ -1,6 +1,6 @@
 package vaperio.core;
 
-public abstract class Bullet {
+public abstract class Bullet implements Collideable {
     private FloatPoint position;
     private FloatPoint velocity;
     private int damage;

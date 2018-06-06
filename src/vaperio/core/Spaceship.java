@@ -3,8 +3,8 @@ package vaperio.core;
 import java.awt.*;
 
 public class Spaceship implements Cloneable {
-    public final int drag;
-    public final int thrust;
+    public final float drag;
+    public final float thrust;
     public final int lagDuration;
 
     public FloatPoint position;

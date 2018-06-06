@@ -3,7 +3,7 @@ package vaperio.core;
 import java.awt.*;
 import java.util.Random;
 
-public class Marge implements Cloneable{
+public class Marge implements Cloneable, Collideable {
     private final Random random = new Random();
 
     private final float speed;
@@ -82,8 +82,8 @@ public class Marge implements Cloneable{
     private void approach(FloatPoint spaceshipPosition){
         FloatPoint margeToSpaceshipVector = new FloatPoint(spaceshipPosition.x - position.x, spaceshipPosition.y - position.y);
         double distance = spaceshipPosition.distance(position);
-        double xMovement =  (margeToSpaceshipVector.x / distance) * speed;
-        this.position.x = (int) (position.x + xMovement);
+        float xMovement = (float) (margeToSpaceshipVector.x / distance) * speed;
+        this.position = new FloatPoint(position.x + xMovement, position.y);
     }
 
     private void finishApproach(FloatPoint spaceshipPosition){
@@ -97,7 +97,7 @@ public class Marge implements Cloneable{
 
     private void wobble(){
         float waitDistance = position.x - wobbleTargetPosition;
-        position.x = position.x + waitDistance * (speed / 10);
+        this.position = new FloatPoint(position.x + waitDistance * (speed / 10), position.y);
         if(Math.abs(waitDistance) < distanceThreshold) {
 
             getWobbleTarget();
@@ -121,7 +121,7 @@ public class Marge implements Cloneable{
 
     private void spike(){
         if(spiking){
-            position.y = position.y + spikeSpeed;
+            this.position = new FloatPoint(position.x, position.y + spikeSpeed);
             if(position.y >= spikeHeight) {
                 spiking = false;
             }
@@ -137,7 +137,7 @@ public class Marge implements Cloneable{
     }
 
     private void returnToBottom(){
-        position.y = position.y - returnSpeed;
+        this.position = new FloatPoint(position.x, position.y - returnSpeed);
         if(position.y <= 0) {
             currentBehaviour = MargeBehaviour.APPROACHING;
         }
@@ -146,5 +146,20 @@ public class Marge implements Cloneable{
     @Override
     public Marge clone(){
         return new Marge(this);
+    }
+
+    @Override
+    public FloatPoint getPosition() {
+        return this.position;
+    }
+
+    @Override
+    public float getWidth() {
+        return 0;
+    }
+
+    @Override
+    public float getHeight() {
+        return 0;
     }
 }
