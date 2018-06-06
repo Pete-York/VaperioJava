@@ -1,11 +1,13 @@
 package vaperio.core;
 
-import java.awt.*;
+import java.util.List;
 
 public class Spaceship implements Cloneable {
     public final float drag;
     public final float thrust;
     public final int lagDuration;
+    public final float height = 0.5f;
+    public final float width = 0.6f;
 
     public FloatPoint position;
     public FloatPoint velocity;
@@ -25,6 +27,10 @@ public class Spaceship implements Cloneable {
     }
 
     private void handleShooting(int action){
+
+    }
+
+    private void checkCollisions(List<Bullet> bulletList, Marge marge){
 
     }
 }

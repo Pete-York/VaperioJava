@@ -1,6 +1,5 @@
 package vaperio.core;
 
-import java.awt.*;
 import java.util.Random;
 
 public class Marge implements Cloneable, Collideable {
