@@ -8,11 +8,14 @@ import java.util.stream.Collectors;
 
 public class VaperioGameState implements AbstractGameState {
     private int juice;
+    private int ralphsBullied;
+    private int frameCount;
+
     private Spaceship spaceship;
     private Marge marge;
     private List<Ralph> ralphs;
-    private List<Bullet> playerBullets = new ArrayList<Bullet>();
-    private List<Bullet> ralphBullets = new ArrayList<Bullet>();
+    private List<Bullet> playerBullets = new ArrayList<>();
+    private List<Bullet> ralphBullets = new ArrayList<>();
     private boolean isNether;
 
     private VaperioParams gameParams;
@@ -20,18 +23,17 @@ public class VaperioGameState implements AbstractGameState {
     public VaperioGameState(VaperioParams gameParams){
         this.marge = new Marge(gameParams, new FloatPoint(0f, 0f));
         this.spaceship = new Spaceship(gameParams, new FloatPoint(0f, 0f));
-        this.ralphs = new ArrayList<Ralph>();
-        this.juice = 60;
+        this.ralphs = new ArrayList<>();
+        this.juice = gameParams.playerStartingHealth;
         this.isNether = false;
         this.gameParams = gameParams;
     }
 
-    public VaperioGameState(Marge marge, Spaceship spaceship, List<Ralph> ralphs, int juice, boolean isNether){
-        this.marge = marge;
-        this.spaceship = spaceship;
-        this.ralphs = ralphs;
-        this.juice = juice;
-        this.isNether = isNether;
+    public VaperioGameState(VaperioGameState vaperioGameState){
+        this.juice = vaperioGameState.juice;
+        this.ralphsBullied = vaperioGameState.ralphsBullied;
+        this.frameCount = vaperioGameState.frameCount;
+        
     }
 
     @Override
@@ -44,12 +46,13 @@ public class VaperioGameState implements AbstractGameState {
         spaceship.next(actions[0]);
         marge.next(spaceship.getPosition());
         checkCollisions();
+        frameCount++;
         return null;
     }
 
     private void checkCollisions(){
         ralphBullets = ralphBullets.stream()
-                .filter(bullet -> checkRalphBulletCollision(bullet))
+                .filter(this::checkRalphBulletCollision)
                 .collect(Collectors.toList());
 
         if(spaceship.collideWithMarge(marge)) {
@@ -57,7 +60,7 @@ public class VaperioGameState implements AbstractGameState {
         }
 
         playerBullets = playerBullets.stream()
-                .filter(bullet -> checkPlayerBulletCollision(bullet))
+                .filter(this::checkPlayerBulletCollision)
                 .collect(Collectors.toList());
     }
 
@@ -72,9 +75,12 @@ public class VaperioGameState implements AbstractGameState {
 
     private boolean checkPlayerBulletCollision(Bullet bullet) {
         for(Ralph ralph : ralphs){
-            if(ralph.checkCollision(bullet)) {
+            if(ralph.getIsNether() == bullet.getIsNether() && ralph.checkCollision(bullet)) {
                 boolean ralphDied = ralph.applyDamage(gameParams.playerDamage);
-                if(ralphDied) ralphs.remove(ralph);
+                if(ralphDied){
+                    ralphs.remove(ralph);
+                    ralphsBullied ++;
+                }
                 return false;
             }
         }
@@ -83,17 +89,17 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public int nActions() {
-        return 0;
+        return 32;
     }
 
     @Override
     public double getScore() {
-        return 0;
+        return juice + ralphsBullied * 20 - frameCount / 60;
     }
 
     @Override
     public boolean isTerminal() {
-        return false;
+        return juice <= 0;
     }
 
     public void setGameParams(VaperioParams vaperioParams) {

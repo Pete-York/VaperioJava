@@ -9,6 +9,7 @@ public class Ralph extends Collideable implements Cloneable {
     public Ralph(int health, FloatPoint position, boolean isNether){
         super(position, width, height);
         this.health = health;
+        this.isNether = isNether;
     }
 
     @Override
@@ -19,5 +20,9 @@ public class Ralph extends Collideable implements Cloneable {
     public boolean applyDamage(int damage){
         health -= damage;
         return damage <= 0;
+    }
+
+    public boolean getIsNether(){
+        return isNether;
     }
 }

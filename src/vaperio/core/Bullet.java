@@ -11,4 +11,8 @@ public class Bullet extends Collideable {
         this.velocity = velocity;
         this.isNether = isNether;
     }
+
+    public boolean getIsNether(){
+        return isNether;
+    }
 }
