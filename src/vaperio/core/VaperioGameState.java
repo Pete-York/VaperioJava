@@ -29,16 +29,28 @@ public class VaperioGameState implements AbstractGameState {
         this.gameParams = gameParams;
     }
 
-    public VaperioGameState(VaperioGameState vaperioGameState){
-        this.juice = vaperioGameState.juice;
-        this.ralphsBullied = vaperioGameState.ralphsBullied;
-        this.frameCount = vaperioGameState.frameCount;
-        
+    public VaperioGameState(VaperioGameState old){
+        this.juice = old.juice;
+        this.ralphsBullied = old.ralphsBullied;
+        this.frameCount = old.frameCount;
+
+        this.spaceship = old.spaceship.clone();
+        this.marge = old.marge.clone();
+        this.ralphs = old.ralphs.stream()
+                .map(Ralph::clone)
+                .collect(Collectors.toList());
+        this.playerBullets = old.playerBullets.stream()
+                .map(Bullet::clone)
+                .collect(Collectors.toList());
+        this.ralphBullets = old.ralphBullets.stream()
+                .map(Bullet::clone)
+                .collect(Collectors.toList());
+        this.isNether = old.isNether;
     }
 
     @Override
     public AbstractGameState copy() {
-        return null;
+        return new VaperioGameState(this);
     }
 
     @Override
@@ -47,7 +59,7 @@ public class VaperioGameState implements AbstractGameState {
         marge.next(spaceship.getPosition());
         checkCollisions();
         frameCount++;
-        return null;
+        return this.copy();
     }
 
     private void checkCollisions(){

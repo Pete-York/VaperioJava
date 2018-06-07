@@ -1,6 +1,6 @@
 package vaperio.core;
 
-public class FloatPoint {
+public class FloatPoint implements Cloneable {
     public float x;
     public float y;
 
@@ -14,5 +14,10 @@ public class FloatPoint {
         float yDistance = this.y - that.y;
         double distanceSquared = xDistance * xDistance + yDistance * yDistance;
         return Math.sqrt(distanceSquared);
+    }
+
+    @Override
+    public FloatPoint clone(){
+        return new FloatPoint(x, y);
     }
 }

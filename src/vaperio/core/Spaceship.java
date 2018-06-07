@@ -18,6 +18,16 @@ public class Spaceship extends Collideable implements Cloneable {
         this.lagDuration = vaperioParams.lagDuration;
     }
 
+    public Spaceship(Spaceship old){
+        super(old.getPosition(), width, height);
+        this.drag = old.drag;
+        this.thrust = old.thrust;
+        this.lagDuration = old.lagDuration;
+
+        this.velocity = old.velocity.clone();
+        this.isCollidingWithMarge = old.isCollidingWithMarge;
+    }
+
     public void next(int action){
 
     }
@@ -34,5 +44,10 @@ public class Spaceship extends Collideable implements Cloneable {
         boolean wasAlreadyColliding = isCollidingWithMarge;
         isCollidingWithMarge = checkCollision(marge);
         return !wasAlreadyColliding && isCollidingWithMarge;
+    }
+
+    @Override
+    public Spaceship clone(){
+        return  new Spaceship(this);
     }
 }
