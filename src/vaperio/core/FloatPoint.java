@@ -16,6 +16,22 @@ public class FloatPoint implements Cloneable {
         return Math.sqrt(distanceSquared);
     }
 
+    public void normalise(){
+        float length = (float) Math.sqrt(x * x + y * y);
+        x /= length;
+        y /= length;
+    }
+
+    public void scale(float factor) {
+        x *= factor;
+        y *= factor;
+    }
+
+    public void add(FloatPoint that){
+        x = x + that.x;
+        y = y + that.y;
+    }
+
     @Override
     public FloatPoint clone(){
         return new FloatPoint(x, y);

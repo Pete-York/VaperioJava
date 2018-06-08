@@ -6,7 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class VaperioGameState implements AbstractGameState {
+public class    VaperioGameState implements AbstractGameState {
+    private static final float playerBulletWidth = 1f;
+    private static final float playerBulletHeight = 1f;
+    private static final float ralphBulletWidth = 1f;
+    private static final float ralphBulletHeight = 1f;
+
     private int juice;
     private int ralphsBullied;
     private int frameCount;
@@ -22,7 +27,7 @@ public class VaperioGameState implements AbstractGameState {
 
     public VaperioGameState(VaperioParams gameParams){
         this.marge = new Marge(gameParams, new FloatPoint(0f, 0f));
-        this.spaceship = new Spaceship(gameParams, new FloatPoint(0f, 0f));
+        this.spaceship = new Spaceship(gameParams, new FloatPoint(0f, 0f), this);
         this.ralphs = new ArrayList<>();
         this.juice = gameParams.playerStartingHealth;
         this.isNether = false;
@@ -35,10 +40,13 @@ public class VaperioGameState implements AbstractGameState {
         this.frameCount = old.frameCount;
 
         this.spaceship = old.spaceship.clone();
+        this.spaceship.setGameState(this);
+
         this.marge = old.marge.clone();
         this.ralphs = old.ralphs.stream()
                 .map(Ralph::clone)
                 .collect(Collectors.toList());
+        this.ralphs.forEach(ralph -> ralph.setGameState(this));
         this.playerBullets = old.playerBullets.stream()
                 .map(Bullet::clone)
                 .collect(Collectors.toList());
@@ -57,9 +65,16 @@ public class VaperioGameState implements AbstractGameState {
     public AbstractGameState next(int[] actions) {
         spaceship.next(actions[0]);
         marge.next(spaceship.getPosition());
+        ralphs.forEach(Ralph::next);
         checkCollisions();
         frameCount++;
-        return this.copy();
+        return this;
+    }
+
+    private void netherSwitch(int action){
+        if(action >= 18) {
+            isNether = !isNether;
+        }
     }
 
     private void checkCollisions(){
@@ -97,6 +112,22 @@ public class VaperioGameState implements AbstractGameState {
             }
         }
         return true;
+    }
+
+    public void shootSpaceshipBullet(FloatPoint position){
+        FloatPoint velocity = new FloatPoint(1f, 0f);
+        velocity.normalise();
+        velocity.scale(gameParams.playerBulletSpeed);
+        Bullet spaceshipBullet = new Bullet(position, velocity, isNether , playerBulletWidth, playerBulletHeight);
+        playerBullets.add(spaceshipBullet);
+    }
+
+    public void shootRalphBullet(FloatPoint position){
+        FloatPoint velocity = new FloatPoint(-1f, 0f);
+        velocity.normalise();
+        velocity.scale(gameParams.enemyBulletSpeed);
+        Bullet ralphBullet = new Bullet(position, velocity, isNether , ralphBulletWidth, ralphBulletHeight);
+        ralphBullets.add(ralphBullet);
     }
 
     @Override

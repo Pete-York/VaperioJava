@@ -10,9 +10,9 @@ public class VaperioParams {
     public int playerStartingHealth;
     public int ralphHealth;
 
-    // Damage
+    // Player Damage
     public int playerDamage;
-    public int invulnerableTime;
+    public int spaceshipShootRate;
 
     // Bullets
     public float playerBulletSpeed;
