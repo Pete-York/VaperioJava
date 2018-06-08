@@ -84,7 +84,7 @@ public class Spaceship extends Collideable implements Cloneable {
     }
 
     private void shootBullet(){
-        gameState.shootSpaceshipBullet();
+        gameState.shootSpaceshipBullet(getPosition().clone());
     }
 
     public boolean collideWithMarge(Marge marge){
