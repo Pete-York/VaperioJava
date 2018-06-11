@@ -39,7 +39,7 @@ public class Ralph extends Collideable implements Cloneable {
 
     public boolean applyDamage(int damage){
         health -= damage;
-        return damage <= 0;
+        return health <= 0;
     }
 
     public boolean getIsNether(){

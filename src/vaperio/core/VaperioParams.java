@@ -36,7 +36,7 @@ public class VaperioParams {
     public float ralphMaxYSpawn = 2f;
 
     // Marge
-    public int margeDamage;
+    public int margeDamage = 5;
     public float margeGroundSpeed = 0.3f;
     public float margeSpikeSpeed = 8f;
     public float margeReturnSpeed = 3f;

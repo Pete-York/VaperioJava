@@ -29,7 +29,7 @@ public class Spaceship extends Collideable implements Cloneable {
         this.shootRate = vaperioParams.spaceshipShootRate;
         this.gameState = gameState;
         this.velocity = new FloatPoint(0f, 0f);
-        this.framesSinceShot = 0;
+        this.framesSinceShot = shootRate;
         this.inputBuffer = new int[vaperioParams.lagDuration];
         for(int i = 0; i < lagDuration; i++){
             inputBuffer[i] = 0;
@@ -73,8 +73,8 @@ public class Spaceship extends Collideable implements Cloneable {
 
     private void handleMovement(int action){
         int direction = action % 9;
-        applyDrag();
         handleThrust(direction);
+        applyDrag();
         handleVelocity();
     }
 
@@ -82,14 +82,14 @@ public class Spaceship extends Collideable implements Cloneable {
         if(direction == 0) return;
         direction--;
         FloatPoint directionVector = getDirectionVector(direction);
-        directionVector.scale(thrust);
+        directionVector.scale(thrust / VaperioParams.frameRate);
         velocity.add(directionVector);
     }
 
     private void applyDrag(){
         float speed = velocity.getMagnitude();
         float currentDrag = Math.max ((float) Math.pow(speed, dragExponent) * dragFactor, minDrag) ;
-        velocity.scale(( 1 - (1/30) * currentDrag));
+        velocity.scale(Math.max( 1 -  currentDrag / VaperioParams.frameRate, 0));
     }
 
     private FloatPoint getDirectionVector(int direction){
@@ -112,12 +112,18 @@ public class Spaceship extends Collideable implements Cloneable {
     }
 
     private void handleVelocity(){
-        getPosition().add(velocity);
+        FloatPoint scaledVelocity = velocity.clone();
+        scaledVelocity.scale(1f / (float) VaperioParams.frameRate);
+        getPosition().add(scaledVelocity);
     }
 
     private void handleShooting(int action){
-        if((action >= 9 && action < 18) || (action >= 27 && action < 36)){
-            if(framesSinceShot >= shootRate) shootBullet();
+        if((action >= 9 && action < 18) || (action >= 27 && action < 36)
+                && framesSinceShot >= shootRate){
+            shootBullet();
+            framesSinceShot = 0;
+        } else {
+            framesSinceShot++;
         }
     }
 

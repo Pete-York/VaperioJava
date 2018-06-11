@@ -1,6 +1,6 @@
 package vaperio.core;
 
-public class RalphManager {
+public class RalphManager implements Cloneable {
     private float minXSpawn;
     private float maxXSpawn;
     private float minYSpawn;
@@ -13,6 +13,7 @@ public class RalphManager {
 
     private VaperioParams gameParams;
     private LevelState levelState = LevelState.FIRST_RALPH;
+    private boolean ralphSpawned = false;
 
     public RalphManager(VaperioParams gameParams){
         this.spawnTime = gameParams.ralphSpawnTime;
@@ -24,12 +25,28 @@ public class RalphManager {
         this.maxYSpawn = gameParams.ralphMaxYSpawn;
     }
 
-    public void next(VaperioGameState gameState) {
+    public RalphManager(RalphManager old) {
+        this.spawnTime = old.spawnTime;
+        this.gameParams = old.gameParams;
+
+        this.framesSinceStart = old.framesSinceStart;
+        this.framesSinceLastSpawn = old.framesSinceLastSpawn;
+        this.levelState = old.levelState;
+
+        this.minXSpawn = old.minXSpawn;
+        this.maxXSpawn = old.maxXSpawn;
+        this.minYSpawn = old.minYSpawn;
+        this.maxYSpawn = old.maxYSpawn;
+
+    }
+
+    public Ralph next(VaperioGameState gameState) {
         framesSinceLastSpawn++;
         framesSinceStart++;
         if(shouldSpawn()) {
-            spawn(gameState);
+            return spawn(gameState);
         }
+        return null;
     }
 
 
@@ -44,7 +61,9 @@ public class RalphManager {
 
     public void enemyKilled() {
         if(levelState == LevelState.FIRST_RALPH) {
-          levelState = LevelState.FIRST_NETHER;
+            levelState = LevelState.FIRST_NETHER;
+            framesSinceLastSpawn = 0;
+            ralphSpawned = false;
         } else if (levelState == LevelState.FIRST_NETHER) {
             levelState = LevelState.NORMAL_LEVEL;
         }
@@ -52,7 +71,12 @@ public class RalphManager {
 
     private boolean shouldSpawn() {
         if(levelState == LevelState.FIRST_NETHER || levelState == LevelState.FIRST_RALPH) {
-            return framesSinceLastSpawn > spawnTime * 6;
+            if(framesSinceLastSpawn > spawnTime * 6 && !ralphSpawned){
+                ralphSpawned = true;
+                return true;
+            } else {
+                return false;
+            }
         }
         float timeSinceLastSpawn = framesSinceLastSpawn / VaperioParams.frameRate;
         float timeSinceLastSpawnSquared = timeSinceLastSpawn * timeSinceLastSpawn;
@@ -78,5 +102,10 @@ public class RalphManager {
         float xSpawn = (float) (Math.random() * (maxXSpawn - minXSpawn)) + minXSpawn;
         float ySpawn = (float) (Math.random() * (maxYSpawn - minYSpawn)) + minYSpawn;
         return new FloatPoint (xSpawn, ySpawn);
+    }
+
+    @Override
+    public RalphManager clone(){
+        return new RalphManager(this);
     }
 }

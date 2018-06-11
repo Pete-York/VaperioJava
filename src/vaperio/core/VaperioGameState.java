@@ -48,6 +48,7 @@ public class VaperioGameState implements AbstractGameState {
         this.ralphs = old.ralphs.stream()
                 .map(Ralph::clone)
                 .collect(Collectors.toList());
+        this.ralphsBullied = old.ralphsBullied;
         this.ralphs.forEach(ralph -> ralph.setGameState(this));
         this.playerBullets = old.playerBullets.stream()
                 .map(Bullet::clone)
@@ -56,6 +57,8 @@ public class VaperioGameState implements AbstractGameState {
                 .map(Bullet::clone)
                 .collect(Collectors.toList());
         this.isNether = old.isNether;
+        this.ralphManager = old.ralphManager.clone();
+        this.gameParams = old.gameParams;
     }
 
     @Override
@@ -69,7 +72,10 @@ public class VaperioGameState implements AbstractGameState {
         marge.next(spaceship.getPosition());
         ralphs.forEach(Ralph::next);
         checkCollisions();
-        ralphManager.next(this);
+        Ralph newRalph = ralphManager.next(this);
+        if(newRalph != null){
+            ralphs.add(newRalph);
+        }
         frameCount++;
         return this;
     }
@@ -144,7 +150,7 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public double getScore() {
-        return juice + ralphsBullied * 20 - frameCount / 60;
+        return juice + ralphsBullied * 20 + frameCount / 100;
     }
 
     @Override
@@ -154,5 +160,9 @@ public class VaperioGameState implements AbstractGameState {
 
     public void setGameParams(VaperioParams vaperioParams) {
         this.gameParams = vaperioParams;
+    }
+
+    public int getFrameCount() {
+        return frameCount;
     }
 }
