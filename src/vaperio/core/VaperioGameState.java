@@ -69,6 +69,7 @@ public class VaperioGameState implements AbstractGameState {
     @Override
     public AbstractGameState next(int[] actions) {
         spaceship.next(actions[0]);
+        netherSwitch(actions[0]);
         marge.next(spaceship.getPosition());
         ralphs.forEach(Ralph::next);
         checkCollisions();
@@ -113,10 +114,11 @@ public class VaperioGameState implements AbstractGameState {
     }
 
     private boolean checkPlayerBulletCollision(Bullet bullet) {
+        if(bullet.getPosition().x > VaperioParams.maxXCoordinate) {
+            return false;
+        }
         for(Ralph ralph : ralphs){
-            if(bullet.getPosition().x > VaperioParams.maxXCoordinate){
-                return false;
-            } else if(ralph.getIsNether() == bullet.getIsNether() && ralph.checkCollision(bullet)) {
+            if(ralph.getIsNether() == bullet.getIsNether() && ralph.checkCollision(bullet)) {
                 boolean ralphDied = ralph.applyDamage(gameParams.playerDamage);
                 if(ralphDied){
                     ralphs.remove(ralph);
@@ -131,14 +133,14 @@ public class VaperioGameState implements AbstractGameState {
 
     public void shootSpaceshipBullet(FloatPoint position){
         FloatPoint velocity = new FloatPoint(gameParams.playerBulletSpeed, 0f);
-        velocity.scale(1 / VaperioParams.frameRate);
+        velocity.scale(1f / VaperioParams.frameRate);
         Bullet spaceshipBullet = new Bullet(position, velocity, isNether , playerBulletWidth, playerBulletHeight);
         playerBullets.add(spaceshipBullet);
     }
 
     public void shootRalphBullet(FloatPoint position){
         FloatPoint velocity = new FloatPoint(-gameParams.enemyBulletSpeed, 0f);
-        velocity.scale(1 / VaperioParams.frameRate);
+        velocity.scale(1f / VaperioParams.frameRate);
         Bullet ralphBullet = new Bullet(position, velocity, isNether , ralphBulletWidth, ralphBulletHeight);
         ralphBullets.add(ralphBullet);
     }

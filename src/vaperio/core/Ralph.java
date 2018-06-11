@@ -21,7 +21,6 @@ public class Ralph extends Collideable implements Cloneable {
         this.shootRate = old.shootRate;
         this.health = old.health;
         this.isNether = old.isNether;
-        this.gameState = (VaperioGameState) old.gameState.copy();
     }
 
     @Override
