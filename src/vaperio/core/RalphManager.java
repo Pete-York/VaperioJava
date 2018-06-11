@@ -54,10 +54,11 @@ public class RalphManager {
         if(levelState == LevelState.FIRST_NETHER || levelState == LevelState.FIRST_RALPH) {
             return framesSinceLastSpawn > spawnTime * 6;
         }
-        int framesSinceLastSpawnSquared = framesSinceLastSpawn * framesSinceLastSpawn;
+        float timeSinceLastSpawn = framesSinceLastSpawn / VaperioParams.frameRate;
+        float timeSinceLastSpawnSquared = timeSinceLastSpawn * timeSinceLastSpawn;
         int toBeat = (int) (Math.random() * 100);
-        framesSinceLastSpawnSquared += framesSinceStart / (VaperioParams.frameRate * 10);
-        return framesSinceLastSpawnSquared > toBeat;
+        timeSinceLastSpawnSquared += (framesSinceStart / VaperioParams.frameRate) * 0.1f;
+        return timeSinceLastSpawnSquared > toBeat;
     }
 
     private boolean shouldBeNether() {
