@@ -21,7 +21,7 @@ public class RalphManager {
         this.minXSpawn = gameParams.ralphMinXSpawn;
         this.maxXSpawn = gameParams.ralphMaxXSpawn;
         this.minYSpawn = gameParams.ralphMinYSpawn;
-        this.maxYSpawn = gameParams.rakphMaxYSpawn;
+        this.maxYSpawn = gameParams.ralphMaxYSpawn;
     }
 
     public void next(VaperioGameState gameState) {

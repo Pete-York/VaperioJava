@@ -3,11 +3,10 @@ package vaperio.core;
 public class Ralph extends Collideable implements Cloneable {
     private static final float width = 0.924f;
     private static final float height = 1.56f;
-    private static final int frameRate = VaperioParams.frameRate;
     private final int shootRate;
     private int health;
     private boolean isNether;
-    private int framesSinceShoot;
+    private int framesSinceShoot = 0;
     private VaperioGameState gameState;
 
     public Ralph(VaperioParams gameParams, FloatPoint position, boolean isNether, VaperioGameState gameState){
@@ -33,7 +32,9 @@ public class Ralph extends Collideable implements Cloneable {
     public void next(){
         if(framesSinceShoot >= shootRate) {
             gameState.shootRalphBullet(this.getPosition().clone());
+            framesSinceShoot = 0;
         }
+        framesSinceShoot++;
     }
 
     public boolean applyDamage(int damage){

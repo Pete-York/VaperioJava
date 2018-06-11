@@ -27,8 +27,8 @@ public class VaperioGameState implements AbstractGameState {
     private VaperioParams gameParams;
 
     public VaperioGameState(VaperioParams gameParams){
-        this.marge = new Marge(gameParams, new FloatPoint(-6f, -6.6f));
-        this.spaceship = new Spaceship(gameParams, new FloatPoint(2f, 0f), this);
+        this.marge = new Marge(gameParams, new FloatPoint(6f, -6.6f));
+        this.spaceship = new Spaceship(gameParams, new FloatPoint(-2f, 0f), this);
         this.ralphs = new ArrayList<>();
         this.juice = gameParams.playerStartingHealth;
         this.isNether = false;
@@ -90,14 +90,15 @@ public class VaperioGameState implements AbstractGameState {
                 .map(Bullet::move)
                 .filter(this::checkRalphBulletCollision)
                 .collect(Collectors.toList());
-
         if(spaceship.collideWithMarge(marge)) {
             juice -= gameParams.margeDamage;
         }
     }
 
     private boolean checkRalphBulletCollision(Bullet bullet) {
-        if(spaceship.checkCollision(bullet)) {
+        if(bullet.getPosition().x < VaperioParams.minXCoordinate) {
+            return false;
+        } else if (spaceship.checkCollision(bullet)) {
             ralphBullets.remove(bullet);
             juice -= gameParams.ralphDamage;
             return false;
@@ -107,7 +108,9 @@ public class VaperioGameState implements AbstractGameState {
 
     private boolean checkPlayerBulletCollision(Bullet bullet) {
         for(Ralph ralph : ralphs){
-            if(ralph.getIsNether() == bullet.getIsNether() && ralph.checkCollision(bullet)) {
+            if(bullet.getPosition().x > VaperioParams.maxXCoordinate){
+                return false;
+            } else if(ralph.getIsNether() == bullet.getIsNether() && ralph.checkCollision(bullet)) {
                 boolean ralphDied = ralph.applyDamage(gameParams.playerDamage);
                 if(ralphDied){
                     ralphs.remove(ralph);

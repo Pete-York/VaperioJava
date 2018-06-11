@@ -30,10 +30,10 @@ public class VaperioParams {
     public int ralphDamage = 10;
     public int ralphSpawnTime = 75;
     public int ralphShootRate = 57;
-    public float ralphMinXSpawn = 2.5f;
-    public float ralphMaxXSpawn = 3.5f;
+    public float ralphMinXSpawn = -2.5f;
+    public float ralphMaxXSpawn = -3.5f;
     public float ralphMinYSpawn = -2f;
-    public float rakphMaxYSpawn = 2f;
+    public float ralphMaxYSpawn = 2f;
 
     // Marge
     public int margeDamage;

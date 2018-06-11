@@ -55,6 +55,7 @@ public class Spaceship extends Collideable implements Cloneable {
     public void next(int action){
         addToBuffer(action);
         handleMovement(getFromBuffer());
+        checkEdges();
         handleShooting(action);
         lagIndex++;
         if (lagIndex == lagDuration) {
@@ -117,6 +118,20 @@ public class Spaceship extends Collideable implements Cloneable {
     private void handleShooting(int action){
         if((action >= 9 && action < 18) || (action >= 27 && action < 36)){
             if(framesSinceShot >= shootRate) shootBullet();
+        }
+    }
+
+    private void checkEdges(){
+        FloatPoint position = getPosition();
+        if(position.x > VaperioParams.maxXCoordinate) {
+            moveTo(VaperioParams.maxXCoordinate, position.y);
+        } else if (position.x < VaperioParams.minXCoordinate) {
+            moveTo(VaperioParams.minXCoordinate, position.y);
+        }
+        if(position.y > VaperioParams.maxYCoordinate) {
+            moveTo(position.x, VaperioParams.maxYCoordinate);
+        } else if(position.y < VaperioParams.minYCoordinate) {
+            moveTo(position.x, VaperioParams.minYCoordinate);
         }
     }
 
