@@ -22,6 +22,8 @@ public class Spaceship extends Collideable implements Cloneable {
         this.lagDuration = vaperioParams.lagDuration;
         this.shootRate = vaperioParams.spaceshipShootRate;
         this.gameState = gameState;
+        this.velocity = new FloatPoint(0f, 0f);
+        this.framesSinceShot = 0;
     }
 
     public Spaceship(Spaceship old){
@@ -32,6 +34,8 @@ public class Spaceship extends Collideable implements Cloneable {
         this.shootRate = old.shootRate;
 
         this.velocity = old.velocity.clone();
+        this.framesSinceShot = old.framesSinceShot;
+
         this.isCollidingWithMarge = old.isCollidingWithMarge;
     }
 

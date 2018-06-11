@@ -9,10 +9,10 @@ public class Ralph extends Collideable implements Cloneable {
     private int framesSinceShoot;
     private VaperioGameState gameState;
 
-    public Ralph(int shootRate, int health, FloatPoint position, boolean isNether, VaperioGameState gameState){
+    public Ralph(VaperioParams gameParams, FloatPoint position, boolean isNether, VaperioGameState gameState){
         super(position, width, height);
-        this.shootRate = shootRate;
-        this.health = health;
+        this.shootRate = gameParams.ralphShootRate;
+        this.health = gameParams.ralphHealth;
         this.isNether = isNether;
         this.gameState = gameState;
     }

@@ -20,7 +20,7 @@ public class VaperioParams {
 
     //Ralph
     public int ralphDamage;
-    public int ralphSpawnRate;
+    public int ralphSpawnTime;
     public int ralphShootRate;
 
     // Marge

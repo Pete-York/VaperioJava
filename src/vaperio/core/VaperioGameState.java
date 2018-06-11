@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class    VaperioGameState implements AbstractGameState {
+public class VaperioGameState implements AbstractGameState {
     private static final float playerBulletWidth = 1f;
     private static final float playerBulletHeight = 1f;
     private static final float ralphBulletWidth = 1f;
@@ -21,6 +21,7 @@ public class    VaperioGameState implements AbstractGameState {
     private List<Ralph> ralphs;
     private List<Bullet> playerBullets = new ArrayList<>();
     private List<Bullet> ralphBullets = new ArrayList<>();
+    private RalphManager ralphManager;
     private boolean isNether;
 
     private VaperioParams gameParams;
@@ -32,6 +33,7 @@ public class    VaperioGameState implements AbstractGameState {
         this.juice = gameParams.playerStartingHealth;
         this.isNether = false;
         this.gameParams = gameParams;
+        this.ralphManager = new RalphManager(gameParams);
     }
 
     public VaperioGameState(VaperioGameState old){
@@ -67,6 +69,7 @@ public class    VaperioGameState implements AbstractGameState {
         marge.next(spaceship.getPosition());
         ralphs.forEach(Ralph::next);
         checkCollisions();
+        ralphManager.next();
         frameCount++;
         return this;
     }
