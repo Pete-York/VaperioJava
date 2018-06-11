@@ -81,17 +81,19 @@ public class VaperioGameState implements AbstractGameState {
     }
 
     private void checkCollisions(){
+        playerBullets = playerBullets.stream()
+                .map(Bullet::move)
+                .filter(this::checkPlayerBulletCollision)
+                .collect(Collectors.toList());
+
         ralphBullets = ralphBullets.stream()
+                .map(Bullet::move)
                 .filter(this::checkRalphBulletCollision)
                 .collect(Collectors.toList());
 
         if(spaceship.collideWithMarge(marge)) {
             juice -= gameParams.margeDamage;
         }
-
-        playerBullets = playerBullets.stream()
-                .filter(this::checkPlayerBulletCollision)
-                .collect(Collectors.toList());
     }
 
     private boolean checkRalphBulletCollision(Bullet bullet) {
