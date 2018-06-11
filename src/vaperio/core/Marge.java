@@ -81,7 +81,7 @@ public class Marge extends Collideable implements Cloneable {
         FloatPoint position = getPosition();
         FloatPoint margeToSpaceshipVector = new FloatPoint(spaceshipPosition.x - position.x, spaceshipPosition.y - position.y);
         double distance = spaceshipPosition.distance(position);
-        float xMovement = (float) (margeToSpaceshipVector.x / distance) * speed;
+        float xMovement = (float) (margeToSpaceshipVector.x / distance) * speed / VaperioParams.frameRate;
         moveTo(position.x + xMovement, position.y);
     }
 
@@ -98,7 +98,7 @@ public class Marge extends Collideable implements Cloneable {
     private void wobble(){
         FloatPoint position = getPosition();
         float waitDistance = position.x - wobbleTargetPosition;
-        moveTo(position.x + waitDistance * (speed / 10), position.y);
+        moveTo(position.x + waitDistance * (speed / 10 / VaperioParams.frameRate), position.y);
         if(Math.abs(waitDistance) < distanceThreshold) {
 
             getWobbleTarget();
@@ -107,7 +107,7 @@ public class Marge extends Collideable implements Cloneable {
     }
 
     private void getWobbleTarget(){
-        double wobbleDistance = random.nextDouble() * 500;
+        double wobbleDistance = random.nextDouble() * 0.5f;
         wobbleTargetPosition = (int) (waitPosition + wobbleDistance * flip);
         flip *= -1;
     }
@@ -123,7 +123,7 @@ public class Marge extends Collideable implements Cloneable {
     private void spike(){
         FloatPoint position = getPosition();
         if(spiking){
-            moveTo(position.x, position.y + spikeSpeed);
+            moveTo(position.x, position.y + spikeSpeed / VaperioParams.frameRate);
             if(position.y >= spikeHeight) {
                 spiking = false;
             }
@@ -140,7 +140,7 @@ public class Marge extends Collideable implements Cloneable {
 
     private void returnToBottom(){
         FloatPoint position = getPosition();
-        moveTo(position.x, position.y - returnSpeed);
+        moveTo(position.x, position.y - returnSpeed / VaperioParams.frameRate);
         if(position.y <= 0) {
             currentBehaviour = MargeBehaviour.APPROACHING;
         }

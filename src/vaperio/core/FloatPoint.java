@@ -17,9 +17,13 @@ public class FloatPoint implements Cloneable {
     }
 
     public void normalise(){
-        float length = (float) Math.sqrt(x * x + y * y);
+        float length = getMagnitude();
         x /= length;
         y /= length;
+    }
+
+    public float getMagnitude(){
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     public void scale(float factor) {

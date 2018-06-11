@@ -12,18 +12,24 @@ public class Spaceship extends Collideable implements Cloneable {
 
     private FloatPoint velocity;
     private int framesSinceShot;
+    private int[] inputBuffer;
+    private int lagIndex = 0;
 
     private boolean isCollidingWithMarge = false;
 
     public Spaceship(VaperioParams vaperioParams, FloatPoint position, VaperioGameState gameState){
         super(position, width, height);
         this.drag = vaperioParams.spaceshipDrag;
-        this.thrust = vaperioParams.spaceshipthrust;
+        this.thrust = vaperioParams.spaceshipThrust;
         this.lagDuration = vaperioParams.lagDuration;
         this.shootRate = vaperioParams.spaceshipShootRate;
         this.gameState = gameState;
         this.velocity = new FloatPoint(0f, 0f);
         this.framesSinceShot = 0;
+        this.inputBuffer = new int[vaperioParams.lagDuration];
+        for(int i = 0; i < lagDuration; i++){
+            inputBuffer[i] = 0;
+        }
     }
 
     public Spaceship(Spaceship old){
@@ -37,15 +43,30 @@ public class Spaceship extends Collideable implements Cloneable {
         this.framesSinceShot = old.framesSinceShot;
 
         this.isCollidingWithMarge = old.isCollidingWithMarge;
+        this.inputBuffer = old.inputBuffer.clone();
     }
 
     public void next(int action){
-        handleMovement(action);
+        addToBuffer(action);
+        handleMovement(getFromBuffer());
         handleShooting(action);
+        lagIndex++;
+        if (lagIndex == lagDuration) {
+            lagIndex = 0;
+        }
+    }
+
+    private void addToBuffer(int action){
+        inputBuffer[lagIndex] = action;
+    }
+
+    private int getFromBuffer(){
+        return inputBuffer[(lagDuration - 1) - lagIndex];
     }
 
     private void handleMovement(int action){
         int direction = action % 9;
+        applyDrag();
         handleThrust(direction);
         handleVelocity();
     }
@@ -56,6 +77,12 @@ public class Spaceship extends Collideable implements Cloneable {
         FloatPoint directionVector = getDirectionVector(direction);
         directionVector.scale(thrust);
         velocity.add(directionVector);
+    }
+
+    private void applyDrag(){
+        float speed = velocity.getMagnitude();
+        float currentDrag = Math.max ((float) Math.pow(speed, 2f), 0.5f);
+        velocity.scale(( 1 - (1/30) * currentDrag));
     }
 
     private FloatPoint getDirectionVector(int direction){

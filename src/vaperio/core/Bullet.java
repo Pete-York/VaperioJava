@@ -20,6 +20,11 @@ public class Bullet extends Collideable implements Cloneable {
         return isNether;
     }
 
+    public Bullet move(){
+        getPosition().add(velocity);
+        return this;
+    }
+
     @Override
     public Bullet clone(){
         return new Bullet(this);

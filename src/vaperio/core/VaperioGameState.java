@@ -118,17 +118,15 @@ public class VaperioGameState implements AbstractGameState {
     }
 
     public void shootSpaceshipBullet(FloatPoint position){
-        FloatPoint velocity = new FloatPoint(1f, 0f);
-        velocity.normalise();
-        velocity.scale(gameParams.playerBulletSpeed);
+        FloatPoint velocity = new FloatPoint(gameParams.playerBulletSpeed, 0f);
+        velocity.scale(1 / VaperioParams.frameRate);
         Bullet spaceshipBullet = new Bullet(position, velocity, isNether , playerBulletWidth, playerBulletHeight);
         playerBullets.add(spaceshipBullet);
     }
 
     public void shootRalphBullet(FloatPoint position){
-        FloatPoint velocity = new FloatPoint(-1f, 0f);
-        velocity.normalise();
-        velocity.scale(gameParams.enemyBulletSpeed);
+        FloatPoint velocity = new FloatPoint(-gameParams.enemyBulletSpeed, 0f);
+        velocity.scale(1 / VaperioParams.frameRate);
         Bullet ralphBullet = new Bullet(position, velocity, isNether , ralphBulletWidth, ralphBulletHeight);
         ralphBullets.add(ralphBullet);
     }

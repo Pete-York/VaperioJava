@@ -52,11 +52,11 @@ public class RalphManager {
 
     private boolean shouldSpawn() {
         if(levelState == LevelState.FIRST_NETHER || levelState == LevelState.FIRST_RALPH) {
-            return framesSinceLastSpawn > spawnTime;
+            return framesSinceLastSpawn > spawnTime * 6;
         }
         int framesSinceLastSpawnSquared = framesSinceLastSpawn * framesSinceLastSpawn;
         int toBeat = (int) (Math.random() * 100);
-        framesSinceLastSpawnSquared += (int) (framesSinceStart * 0.1f);
+        framesSinceLastSpawnSquared += framesSinceStart / (VaperioParams.frameRate * 10);
         return framesSinceLastSpawnSquared > toBeat;
     }
 

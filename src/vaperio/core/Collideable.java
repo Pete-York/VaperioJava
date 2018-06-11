@@ -32,6 +32,7 @@ public abstract class Collideable {
     }
 
     public void moveTo(float x, float y) {
-        this.position = position;
+        this.position.x = x;
+        this.position.y = y;
     }
 }
