@@ -22,6 +22,10 @@ public class VaperioParams {
     public int ralphDamage;
     public int ralphSpawnTime;
     public int ralphShootRate;
+    public float ralphMinXSpawn = 2.5f;
+    public float ralphMaxXSpawn = 3.5f;
+    public float ralphMinYSpawn = -2f;
+    public float rakphMaxYSpawn = 2f;
 
     // Marge
     public int margeDamage;
@@ -31,5 +35,7 @@ public class VaperioParams {
     public float margeDistanceThreshold = 100;
     public float margeSpikeHeight = 7000;
     public int margeSpikeSustainFrames = 60 * 2;
+
+    public static final int frameRate = 30;
 
 }

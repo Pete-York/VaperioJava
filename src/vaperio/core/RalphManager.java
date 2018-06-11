@@ -1,9 +1,10 @@
 package vaperio.core;
 
 public class RalphManager {
-    private final float xSpawn = 0f;
-    private final float minYSpawn = 0f;
-    private final float maxYSpawn = 1f;
+    private float minXSpawn;
+    private float maxXSpawn;
+    private float minYSpawn;
+    private float maxYSpawn;
 
     private int framesSinceStart = 0;
 
@@ -17,6 +18,10 @@ public class RalphManager {
         this.spawnTime = gameParams.ralphSpawnTime;
         this.gameParams = gameParams;
 
+        this.minXSpawn = gameParams.ralphMinXSpawn;
+        this.maxXSpawn = gameParams.ralphMaxXSpawn;
+        this.minYSpawn = gameParams.ralphMinYSpawn;
+        this.maxYSpawn = gameParams.rakphMaxYSpawn;
     }
 
     public void next(VaperioGameState gameState) {
@@ -69,6 +74,7 @@ public class RalphManager {
     }
 
     private FloatPoint generatePosition(){
+        float xSpawn = (float) (Math.random() * (maxXSpawn - minXSpawn)) + minXSpawn;
         float ySpawn = (float) (Math.random() * (maxYSpawn - minYSpawn)) + minYSpawn;
         return new FloatPoint (xSpawn, ySpawn);
     }

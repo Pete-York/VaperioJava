@@ -3,6 +3,7 @@ package vaperio.core;
 public class Ralph extends Collideable implements Cloneable {
     private static final float width = 0.924f;
     private static final float height = 1.56f;
+    private static final int frameRate = VaperioParams.frameRate;
     private final int shootRate;
     private int health;
     private boolean isNether;
@@ -21,6 +22,7 @@ public class Ralph extends Collideable implements Cloneable {
         this.shootRate = old.shootRate;
         this.health = old.health;
         this.isNether = old.isNether;
+        this.gameState = (VaperioGameState) old.gameState.copy();
     }
 
     @Override

@@ -27,8 +27,8 @@ public class VaperioGameState implements AbstractGameState {
     private VaperioParams gameParams;
 
     public VaperioGameState(VaperioParams gameParams){
-        this.marge = new Marge(gameParams, new FloatPoint(0f, 0f));
-        this.spaceship = new Spaceship(gameParams, new FloatPoint(0f, 0f), this);
+        this.marge = new Marge(gameParams, new FloatPoint(-6f, -6.6f));
+        this.spaceship = new Spaceship(gameParams, new FloatPoint(2f, 0f), this);
         this.ralphs = new ArrayList<>();
         this.juice = gameParams.playerStartingHealth;
         this.isNether = false;
@@ -69,7 +69,7 @@ public class VaperioGameState implements AbstractGameState {
         marge.next(spaceship.getPosition());
         ralphs.forEach(Ralph::next);
         checkCollisions();
-        ralphManager.next();
+        ralphManager.next(this);
         frameCount++;
         return this;
     }
