@@ -2,10 +2,16 @@ package vaperio.core;
 
 public class VaperioParams {
     public static final int frameRate = 30;
+    public static final float minXCoordinate = -12.5f;
+    public static final float maxXCoordinate = 12.5f;
+    public static final float minYCoordinate = -9.3f;
+    public static final float maxYCoordinate = 9.3f;
 
     // Spaceship Movement
-    public float spaceshipDrag;
-    public float spaceshipThrust;
+    public float minSpaceshipDrag = 0.5f;
+    public float spaceshipDragFactor = 1f;
+    public float spaceshipDragExponent = 2f;
+    public float spaceshipThrust = 7f;
     public int lagDuration = 20;
 
     // Health

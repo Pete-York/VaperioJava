@@ -1,7 +1,9 @@
 package vaperio.core;
 
 public class Spaceship extends Collideable implements Cloneable {
-    private final float drag;
+    private final float minDrag;
+    private final float dragFactor;
+    private final float dragExponent;
     private final float thrust;
     private final int lagDuration;
     private final int shootRate;
@@ -19,7 +21,9 @@ public class Spaceship extends Collideable implements Cloneable {
 
     public Spaceship(VaperioParams vaperioParams, FloatPoint position, VaperioGameState gameState){
         super(position, width, height);
-        this.drag = vaperioParams.spaceshipDrag;
+        this.minDrag = vaperioParams.minSpaceshipDrag;
+        this.dragFactor = vaperioParams.spaceshipDragFactor;
+        this.dragExponent = vaperioParams.spaceshipDragExponent;
         this.thrust = vaperioParams.spaceshipThrust;
         this.lagDuration = vaperioParams.lagDuration;
         this.shootRate = vaperioParams.spaceshipShootRate;
@@ -34,7 +38,9 @@ public class Spaceship extends Collideable implements Cloneable {
 
     public Spaceship(Spaceship old){
         super(old.getPosition(), width, height);
-        this.drag = old.drag;
+        this.minDrag = old.minDrag;
+        this.dragFactor = old.dragFactor;
+        this.dragExponent = old.dragExponent;
         this.thrust = old.thrust;
         this.lagDuration = old.lagDuration;
         this.shootRate = old.shootRate;
@@ -81,7 +87,7 @@ public class Spaceship extends Collideable implements Cloneable {
 
     private void applyDrag(){
         float speed = velocity.getMagnitude();
-        float currentDrag = Math.max ((float) Math.pow(speed, 2f), 0.5f);
+        float currentDrag = Math.max ((float) Math.pow(speed, dragExponent) * dragFactor, minDrag) ;
         velocity.scale(( 1 - (1/30) * currentDrag));
     }
 
