@@ -109,6 +109,7 @@ public class VaperioGameState implements AbstractGameState {
                 boolean ralphDied = ralph.applyDamage(gameParams.playerDamage);
                 if(ralphDied){
                     ralphs.remove(ralph);
+                    ralphManager.enemyKilled();
                     ralphsBullied ++;
                 }
                 return false;
