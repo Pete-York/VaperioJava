@@ -106,7 +106,6 @@ public class VaperioGameState implements AbstractGameState {
         if(bullet.getPosition().x < VaperioParams.minXCoordinate) {
             return false;
         } else if (spaceship.checkCollision(bullet)) {
-            ralphBullets.remove(bullet);
             juice -= gameParams.ralphDamage;
             return false;
         }
@@ -152,7 +151,7 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public double getScore() {
-        return juice + ralphsBullied * 20 + frameCount / 100;
+        return juice + ralphsBullied * 20;
     }
 
     @Override
