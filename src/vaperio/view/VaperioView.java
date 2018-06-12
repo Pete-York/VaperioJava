@@ -12,9 +12,12 @@ public class VaperioView extends JComponent {
     VaperioParams params;
     VaperioGameState gameState;
     Color bg = Color.PINK;
+    Color netherBg = new Color(51,204,255);
     Color spaceShipColor = Color.gray;
     Color margeColor = Color.blue;
+    Color netherMargeColor = Color.orange;
     Color ralphColor = Color.yellow;
+    Color netherRalphColor = new Color(153,102, 0);
 
     int nStars = 200;
     int rad = 10;
@@ -53,7 +56,7 @@ public class VaperioView extends JComponent {
     public void paintComponent(Graphics go) {
         Graphics2D g = (Graphics2D) go;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(bg);
+        g.setColor((gameState.isNether) ? netherBg : bg);
         g.fillRect(0, 0, getWidth(), getHeight());
 /*
         double xScroll = -gameState.spaceship.s.x + scrollWidth/2;
@@ -86,13 +89,13 @@ public class VaperioView extends JComponent {
     }
 
     private void paintMarge(Graphics2D g) {
-        g.setColor(margeColor);
+        g.setColor((gameState.isNether) ? netherMargeColor : margeColor);
         paintCollideable(g, gameState.marge);
     }
 
     private void paintRalph(Graphics2D g) {
-        g.setColor(ralphColor);
         for(Ralph r : gameState.ralphs) {
+            g.setColor((gameState.isNether != r.getIsNether()) ? netherRalphColor : ralphColor);
             paintCollideable(g, r);
         }
     }
@@ -105,8 +108,8 @@ public class VaperioView extends JComponent {
     }
 
     private void paintRalphBullets(Graphics2D g) {
-        g.setColor(ralphColor);
         for( Bullet rb : gameState.ralphBullets) {
+            g.setColor((gameState.isNether != rb.getIsNether()) ? netherRalphColor : ralphColor);
             paintCollideable(g, rb);
         }
     }

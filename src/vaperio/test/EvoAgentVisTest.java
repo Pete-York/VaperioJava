@@ -22,7 +22,7 @@ public class EvoAgentVisTest {
         VaperioParams params = new VaperioParams();
 
 
-        // todo: how does changing the parameter settings affect AI agent performance?
+        // todo: how does changing the  parameter settings affect AI agent performance?
         // todo: Can you settings that make it really tough for the AI?
 
         VaperioGameState gameState = new VaperioGameState(params);

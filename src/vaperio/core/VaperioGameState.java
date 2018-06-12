@@ -22,7 +22,7 @@ public class VaperioGameState implements AbstractGameState {
     public List<Bullet> playerBullets = new ArrayList<>();
     public List<Bullet> ralphBullets = new ArrayList<>();
     public RalphManager ralphManager;
-    private boolean isNether;
+    public boolean isNether;
 
     private VaperioParams gameParams;
 
@@ -138,10 +138,10 @@ public class VaperioGameState implements AbstractGameState {
         playerBullets.add(spaceshipBullet);
     }
 
-    public void shootRalphBullet(FloatPoint position){
+    public void shootRalphBullet(FloatPoint position, boolean isNetherRalph){
         FloatPoint velocity = new FloatPoint(-gameParams.enemyBulletSpeed, 0f);
         velocity.scale(1f / VaperioParams.frameRate);
-        Bullet ralphBullet = new Bullet(position, velocity, isNether , ralphBulletWidth, ralphBulletHeight);
+        Bullet ralphBullet = new Bullet(position, velocity, isNetherRalph , ralphBulletWidth, ralphBulletHeight);
         ralphBullets.add(ralphBullet);
     }
 
