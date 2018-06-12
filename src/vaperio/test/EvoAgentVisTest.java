@@ -24,8 +24,6 @@ public class EvoAgentVisTest {
 
         // todo: how does changing the parameter settings affect AI agent performance?
         // todo: Can you settings that make it really tough for the AI?
-        params.ralphMaxYSpawn = 0f;
-        params.ralphMinYSpawn = 0f;
 
         VaperioGameState gameState = new VaperioGameState(params);
         VaperioView view = new VaperioView().setGameState(gameState).setParams(params);

@@ -129,8 +129,8 @@ public class Spaceship extends Collideable implements Cloneable {
 
     private void checkEdges(){
         FloatPoint position = getPosition();
-        if(position.x > VaperioParams.maxXCoordinate) {
-            moveTo(VaperioParams.maxXCoordinate, position.y);
+        if(position.x > 0) {
+            moveTo(0, position.y);
         } else if (position.x < VaperioParams.minXCoordinate) {
             moveTo(VaperioParams.minXCoordinate, position.y);
         }
