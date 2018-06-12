@@ -34,6 +34,7 @@ public class VaperioGameState implements AbstractGameState {
         this.isNether = false;
         this.gameParams = gameParams;
         this.ralphManager = new RalphManager(gameParams);
+        this.ralphsBullied = 0;
     }
 
     public VaperioGameState(VaperioGameState old){
@@ -48,8 +49,8 @@ public class VaperioGameState implements AbstractGameState {
         this.ralphs = old.ralphs.stream()
                 .map(Ralph::clone)
                 .collect(Collectors.toList());
-        this.ralphsBullied = old.ralphsBullied;
         this.ralphs.forEach(ralph -> ralph.setGameState(this));
+
         this.playerBullets = old.playerBullets.stream()
                 .map(Bullet::clone)
                 .collect(Collectors.toList());
@@ -120,9 +121,9 @@ public class VaperioGameState implements AbstractGameState {
             if(ralph.getIsNether() == bullet.getIsNether() && ralph.checkCollision(bullet)) {
                 boolean ralphDied = ralph.applyDamage(gameParams.playerDamage);
                 if(ralphDied){
+                    ralphsBullied ++;
                     ralphs.remove(ralph);
                     ralphManager.enemyKilled();
-                    ralphsBullied ++;
                 }
                 return false;
             }
