@@ -152,7 +152,7 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public double getScore() {
-        return -(juice + ralphHits * 200);
+        return (juice + ralphHits * 200);
     }
 
     @Override
