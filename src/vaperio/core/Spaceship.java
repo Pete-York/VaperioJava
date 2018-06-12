@@ -74,16 +74,18 @@ public class Spaceship extends Collideable implements Cloneable {
     private void handleMovement(int action){
         int direction = action % 9;
         handleThrust(direction);
-        applyDrag();
-        handleVelocity();
+        //applyDrag();
+        //handleVelocity();
     }
 
     private void handleThrust(int direction){
         if(direction == 0) return;
         direction--;
         FloatPoint directionVector = getDirectionVector(direction);
-        directionVector.scale(thrust / VaperioParams.frameRate);
-        velocity.add(directionVector);
+        //directionVector.scale(thrust / VaperioParams.frameRate);
+        //velocity.add(directionVector);
+        directionVector.scale(0.001f);
+        getPosition().add(directionVector);
     }
 
     private void applyDrag(){

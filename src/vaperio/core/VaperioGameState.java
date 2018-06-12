@@ -13,7 +13,7 @@ public class VaperioGameState implements AbstractGameState {
     private static final float ralphBulletHeight = 1f;
 
     private int juice;
-    private int ralphsBullied;
+    private int ralphHits;
     private int frameCount;
 
     public Spaceship spaceship;
@@ -34,12 +34,12 @@ public class VaperioGameState implements AbstractGameState {
         this.isNether = false;
         this.gameParams = gameParams;
         this.ralphManager = new RalphManager(gameParams);
-        this.ralphsBullied = 0;
+        this.ralphHits = 0;
     }
 
     public VaperioGameState(VaperioGameState old){
         this.juice = old.juice;
-        this.ralphsBullied = old.ralphsBullied;
+        this.ralphHits = old.ralphHits;
         this.frameCount = old.frameCount;
 
         this.spaceship = old.spaceship.clone();
@@ -120,8 +120,8 @@ public class VaperioGameState implements AbstractGameState {
         for(Ralph ralph : ralphs){
             if(ralph.getIsNether() == bullet.getIsNether() && ralph.checkCollision(bullet)) {
                 boolean ralphDied = ralph.applyDamage(gameParams.playerDamage);
+                ralphHits++;
                 if(ralphDied){
-                    ralphsBullied ++;
                     ralphs.remove(ralph);
                     ralphManager.enemyKilled();
                 }
@@ -152,7 +152,7 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public double getScore() {
-        return juice + ralphsBullied * 20;
+        return -(juice + ralphHits * 200);
     }
 
     @Override

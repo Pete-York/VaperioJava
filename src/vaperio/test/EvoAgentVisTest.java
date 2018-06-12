@@ -50,9 +50,9 @@ public class EvoAgentVisTest {
 
         DefaultMutator mutator = new DefaultMutator(null);
         // setting to true may give best performance
-        mutator.totalRandomChaosMutation = true;
+        mutator.totalRandomChaosMutation = false;
         mutator.flipAtLeastOneValue = true;
-        mutator.pointProb = 5;
+        mutator.pointProb = 100;
 
         SimpleRMHC simpleRMHC = new SimpleRMHC();
         simpleRMHC.setSamplingRate(nResamples);

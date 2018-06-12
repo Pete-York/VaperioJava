@@ -11,7 +11,7 @@ public class VaperioParams {
     public static final float maxYCoordinate = 9.3f;
 
     // game map params
-    public static final int scaleFactor = 50;
+    public static final int scaleFactor = 40;
     public int width = Math.round(Math.abs(minXCoordinate) + Math.abs(maxXCoordinate)) *scaleFactor;
     public int height = Math.round(Math.abs(minYCoordinate) + Math.abs(maxYCoordinate)) * scaleFactor;
 
@@ -45,10 +45,11 @@ public class VaperioParams {
 
     // Marge
     public int margeDamage = 5;
-    public float margeGroundSpeed = 0.3f;
+    public float margeGroundSpeed = 4f;
     public float margeSpikeSpeed = 8f;
     public float margeReturnSpeed = 3f;
     public float margeDistanceThreshold = 0.1f;
+    public float margeDefaultYPosition = -6.6f;
     public float margeSpikeHeight = 7f;
     public int margeSpikeSustainFrames = frameRate * 2;
 
