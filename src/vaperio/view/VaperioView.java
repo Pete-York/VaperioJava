@@ -139,11 +139,6 @@ public class VaperioView extends JComponent {
     }
 
 
-
-
-
-
-
     //draw stars
 
     ArrayList<Star> stars = new ArrayList();
