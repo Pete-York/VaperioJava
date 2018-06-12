@@ -1,7 +1,5 @@
 package vaperio.view;
 
-import caveswing.view.CaveView;
-import math.Vector2d;
 import vaperio.core.*;
 import spinbattle.util.DrawUtil;
 
@@ -114,16 +112,18 @@ public class VaperioView extends JComponent {
     }
 
     private void paintCollideable(Graphics2D g, Collideable collideable) {
-        g.setColor(g.getColor());
         FloatPoint s = collideable.getPosition().clone();
-        s.scale(VaperioParams.scaleFactor);
-        FloatPoint toCentre = new FloatPoint(VaperioParams.maxXCoordinate * VaperioParams.scaleFactor, VaperioParams.maxYCoordinate * VaperioParams.scaleFactor);
-        s.add(toCentre);
-        int xOrigin = (int) s.x - (int) (collideable.getWidth() / 2 * VaperioParams.scaleFactor);
-        int yOrigin = (int) (VaperioParams.maxYCoordinate * 2 * VaperioParams.scaleFactor) - (int) s.y - (int) (collideable.getWidth() / 2 * VaperioParams.scaleFactor);
-        int width = (int) (collideable.getWidth() * VaperioParams.scaleFactor);
-        int height = (int) (collideable.getHeight() * VaperioParams.scaleFactor);
-        g.fillRect(xOrigin, yOrigin, width ,height );
+        s.add(new FloatPoint(VaperioParams.maxXCoordinate, VaperioParams.maxYCoordinate));
+        float yPositionFromTop = (VaperioParams.maxYCoordinate * 2) - s.y;
+
+        float xPositionScaled = s.x * VaperioParams.scaleFactor;
+        float yPositionFromTopScaleed = yPositionFromTop * VaperioParams.scaleFactor;
+        int widthScaled = (int) (collideable.getWidth() * VaperioParams.scaleFactor);
+        int heightScaled = (int) (collideable.getHeight() * VaperioParams.scaleFactor);
+
+        int xOrigin = (int) xPositionScaled - widthScaled / 2;
+        int yOrigin = (int) yPositionFromTopScaleed - heightScaled / 2;
+        g.fillRect(xOrigin, yOrigin, widthScaled , heightScaled);
     }
 
 
@@ -133,7 +133,8 @@ public class VaperioView extends JComponent {
     private void paintScore(Graphics2D g) {
         g.setColor(Color.white);
         int score = (int) gameState.getScore();
-        String message = String.format("%d", score);
+        int frames = gameState.getFrameCount();
+        String message = String.format("score - %d, frames - %d", score, frames);
         scoreDraw.centreString(g, message, getWidth()/2, scoreFontSize);
     }
 
