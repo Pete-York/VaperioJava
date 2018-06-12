@@ -1,6 +1,9 @@
 package vaperio.view;
 
 import caveswing.view.CaveView;
+import math.Vector2d;
+import vaperio.core.Collideable;
+import vaperio.core.FloatPoint;
 import vaperio.core.VaperioParams;
 import vaperio.core.VaperioGameState;
 import spinbattle.util.DrawUtil;
@@ -14,6 +17,9 @@ public class VaperioView extends JComponent {
     VaperioParams params;
     VaperioGameState gameState;
     Color bg = Color.PINK;
+    Color spaceShipColor = Color.gray;
+    Color margeColor = Color.blue;
+
     int nStars = 200;
     int rad = 10;
     public int nPaints = 0;
@@ -42,9 +48,16 @@ public class VaperioView extends JComponent {
         return gameState.getFrameCount() + " : " + nPaints;
     }
 
+    public Dimension getPreferredSize() {
+        return new Dimension(params.width,params.height);
+    }
+
+
+
     public void paintComponent(Graphics go) {
         Graphics2D g = (Graphics2D) go;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(bg);
         g.fillRect(0, 0, getWidth(), getHeight());
 /*
         double xScroll = -gameState.spaceship.s.x + scrollWidth/2;
@@ -53,8 +66,11 @@ public class VaperioView extends JComponent {
         }
 */
         paintStars(g);
+        paintSpaceShip(g);
+        paintMarge(g);
+        //paintRalph(g);
+        //paintBullet(g);
 /*
-        paintAnchors(g);
         paintAvatar(g);
 
 
@@ -66,6 +82,28 @@ public class VaperioView extends JComponent {
         paintScore(g);
         nPaints++;
     }
+
+    //paint sprites
+
+    private void paintSpaceShip(Graphics2D g) {
+        g.setColor(spaceShipColor);
+        paintCollideable(g, gameState.spaceship);
+    }
+
+    private void paintMarge(Graphics2D g) {
+        g.setColor(margeColor);
+        paintCollideable(g, gameState.marge);
+    }
+
+    private void paintCollideable(Graphics2D g, Collideable collideable) {
+        g.setColor(g.getColor());
+        FloatPoint s = collideable.getPosition();
+        FloatPoint toCentre = new FloatPoint(VaperioParams.maxXCoordinate * VaperioParams.scaleFactor, VaperioParams.maxYCoordinate * VaperioParams.scaleFactor);
+        s.add(toCentre);
+        g.fillRect((int) s.x - (int) (collideable.getWidth() / 2 * VaperioParams.scaleFactor), (int) s.y-(int) (collideable.getWidth() / 2 * VaperioParams.scaleFactor)
+                , (int) (collideable.getWidth() * VaperioParams.scaleFactor), (int) (collideable.getHeight() * VaperioParams.scaleFactor));
+    }
+
 
 
     //paint score

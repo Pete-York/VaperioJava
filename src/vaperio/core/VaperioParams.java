@@ -11,8 +11,9 @@ public class VaperioParams {
     public static final float maxYCoordinate = 9.3f;
 
     // game map params
-    public int height = Math.round(Math.abs(minXCoordinate) + Math.abs(maxXCoordinate));
-    public int width = Math.round(Math.abs(minYCoordinate) + Math.abs(maxYCoordinate));
+    public static final int scaleFactor = 50;
+    public int width = Math.round(Math.abs(minXCoordinate) + Math.abs(maxXCoordinate)) *scaleFactor;
+    public int height = Math.round(Math.abs(minYCoordinate) + Math.abs(maxYCoordinate)) * scaleFactor;
 
     // Spaceship Movement
     public float minSpaceshipDrag = 0.5f;

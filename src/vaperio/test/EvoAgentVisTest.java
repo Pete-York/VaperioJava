@@ -30,6 +30,7 @@ public class EvoAgentVisTest {
         VaperioGameState gameState = new VaperioGameState(params);
         VaperioView view = new VaperioView().setGameState(gameState).setParams(params);
         String title = "Evo Agent Visual Test";
+        JEasyFrame frame = new JEasyFrame(view, title);
 
         while (!gameState.isTerminal()) {
             // get the action from the player, update the game state, and show a view
