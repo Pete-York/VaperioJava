@@ -16,12 +16,12 @@ public class VaperioGameState implements AbstractGameState {
     private int ralphsBullied;
     private int frameCount;
 
-    private Spaceship spaceship;
-    private Marge marge;
-    private List<Ralph> ralphs;
-    private List<Bullet> playerBullets = new ArrayList<>();
-    private List<Bullet> ralphBullets = new ArrayList<>();
-    private RalphManager ralphManager;
+    public Spaceship spaceship;
+    public Marge marge;
+    public List<Ralph> ralphs;
+    public List<Bullet> playerBullets = new ArrayList<>();
+    public List<Bullet> ralphBullets = new ArrayList<>();
+    public RalphManager ralphManager;
     private boolean isNether;
 
     private VaperioParams gameParams;

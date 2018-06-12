@@ -1,11 +1,18 @@
 package vaperio.core;
 
+import java.util.Random;
+import java.lang.Math;
+
 public class VaperioParams {
     public static final int frameRate = 30;
     public static final float minXCoordinate = -12.5f;
     public static final float maxXCoordinate = 12.5f;
     public static final float minYCoordinate = -9.3f;
     public static final float maxYCoordinate = 9.3f;
+
+    // game map params
+    public int height = Math.round(Math.abs(minXCoordinate) + Math.abs(maxXCoordinate));
+    public int width = Math.round(Math.abs(minYCoordinate) + Math.abs(maxYCoordinate));
 
     // Spaceship Movement
     public float minSpaceshipDrag = 0.5f;
@@ -43,5 +50,12 @@ public class VaperioParams {
     public float margeDistanceThreshold = 0.1f;
     public float margeSpikeHeight = 7f;
     public int margeSpikeSustainFrames = frameRate * 2;
+
+    //random
+    public Random random = new Random();
+
+    public Random getRandom() {
+        return random;
+    }
 
 }
