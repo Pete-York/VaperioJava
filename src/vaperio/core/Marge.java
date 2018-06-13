@@ -100,7 +100,7 @@ public class Marge extends Collideable implements Cloneable {
     private void wobble(){
         FloatPoint position = getPosition();
         float waitDistance = wobbleTargetPosition - position.x;
-        moveTo(position.x + waitDistance * (speed / 10 / VaperioParams.frameRate), position.y);
+        moveTo(position.x + waitDistance * (speed / 5 / VaperioParams.frameRate), position.y);
         if(Math.abs(waitDistance) < distanceThreshold) {
             getWobbleTarget();
             wobbleCount  += 1;
