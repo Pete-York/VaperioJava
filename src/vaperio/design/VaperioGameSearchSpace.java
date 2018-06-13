@@ -40,21 +40,21 @@ public class VaperioGameSearchSpace implements AnnotatedFitnessSpace {
                 new FloatParam().setArray(dragFactor).setName("drag factor"),
                 new FloatParam().setArray(dragExponent).setName("drag exponent"),
                 new FloatParam().setArray(minDrag).setName("min drag"),
-                new FloatParam().setArray(playerBulletSpeed).setName("play bullet speed"),
-                new FloatParam().setArray(ralphBulletSpeed).setName("ralph bullet speed"),
+                //new FloatParam().setArray(playerBulletSpeed).setName("play bullet speed"),
+                //new FloatParam().setArray(ralphBulletSpeed).setName("ralph bullet speed"),
         };
     }
 
     float[] thrust = {5f, 7f, 9f};
-    float[] dragFactor = {0.5f, 1f, 1.5f};
-    float[] dragExponent = {1.5f, 2f, 3f};
-    float[] minDrag = {0.25f, 0.5f, 0.75f};
+    float[] dragFactor = {0.5f, 1f};
+    float[] dragExponent = {1.5f, 2f};
+    float[] minDrag = {0.25f, 0.5f};
 
-    float[] playerBulletSpeed = {4f, 5f, 6f};
-    float[] ralphBulletSpeed = {4f, 5f, 6f};
+    //float[] playerBulletSpeed = {4f, 5f, 6f};
+    //float[] ralphBulletSpeed = {4f, 5f, 6f};
 
     int[] nValues = new int[]{thrust.length, dragFactor.length,
-            dragExponent.length, minDrag.length, playerBulletSpeed.length, ralphBulletSpeed.length};
+            dragExponent.length, minDrag.length};
     int nDims = nValues.length;
 
     static int thrustIndex = 0;
@@ -65,7 +65,7 @@ public class VaperioGameSearchSpace implements AnnotatedFitnessSpace {
     static int ralphBulletSpeedIndex = 5;
 
     int nGames = 1000;
-    int maxSteps = 10000;
+    int maxSteps = 5000;
 
     public EvolutionLogger logger;
 
@@ -108,8 +108,8 @@ public class VaperioGameSearchSpace implements AnnotatedFitnessSpace {
 
         params.spaceshipDragExponent = dragExponent[x[dragExponentIndex]];
         params.minSpaceshipDrag = minDrag[x[minDragIndex]];
-        params.playerBulletSpeed = params.height * playerBulletSpeed[x[playerBulletSpeedIndex]];
-        params.enemyBulletSpeed = ralphBulletSpeed[x[ralphBulletSpeedIndex]];
+        //params.playerBulletSpeed = params.height * playerBulletSpeed[x[playerBulletSpeedIndex]];
+        //params.enemyBulletSpeed = ralphBulletSpeed[x[ralphBulletSpeedIndex]];
 
         // using a Game Factory enables the tester to start with a fresh copy of the
         // game each time
@@ -130,8 +130,8 @@ public class VaperioGameSearchSpace implements AnnotatedFitnessSpace {
         simpleRMHC.setMutator(mutator);
 
         EvoAlg evoAlg = simpleRMHC;
-        int nEvals = 40;
-        int seqLength = 1200;
+        int nEvals = 20;
+        int seqLength = 300;
         EvoAgent evoAgent = new EvoAgent().setEvoAlg(evoAlg, nEvals).setSequenceLength(seqLength);
         speedTest.setPlayer(evoAgent);
 
@@ -145,13 +145,13 @@ public class VaperioGameSearchSpace implements AnnotatedFitnessSpace {
 
         speedTest = new SpeedTest().setGameFactory(gameFactory);
         nEvals = 20;
-        seqLength = 800;
+        seqLength = 100;
         evoAgent = new EvoAgent().setEvoAlg(evoAlg, nEvals).setSequenceLength(seqLength);
         speedTest.setPlayer(evoAgent);
 
         speedTest.playGames(nGames, maxSteps);
         value -= speedTest.gameScores.mean();
-        
+        value = Math.abs(value);
 
 
         // return this for now, and see what we get

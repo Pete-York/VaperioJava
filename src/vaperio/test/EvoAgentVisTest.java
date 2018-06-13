@@ -62,8 +62,8 @@ public class EvoAgentVisTest {
 
         // evoAlg = new SlidingMeanEDA();
 
-        int nEvals = 40;
-        int seqLength = 1200;
+        int nEvals = 120;
+        int seqLength = 50;
         EvoAgent evoAgent = new EvoAgent().setEvoAlg(evoAlg, nEvals).setSequenceLength(seqLength);
         evoAgent.setDimension(new Dimension(800, 400));
         evoAgent.setUseShiftBuffer(true);

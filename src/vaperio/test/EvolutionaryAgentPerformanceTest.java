@@ -9,6 +9,8 @@ import vaperio.core.VaperioGameState;
 import vaperio.core.VaperioParams;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EvolutionaryAgentPerformanceTest {
 
@@ -17,16 +19,18 @@ public class EvolutionaryAgentPerformanceTest {
     public static void main(String[] args) throws Exception {
 
         int[] nEvalss = {10, 20, 30, 40};
-        int[] seqLengths = {100, 200, 300, 400, 1000};
+        int[] seqLengths = {50, 75};
         VaperioParams params = new VaperioParams();
 
         params.maxFrames = 15000;
         // todo: how does changing the  parameter settings affect AI agent performance?
         // todo: Can you settings that make it really tough for the AI?
-        int nTrials = 20;
+        int nTrials = 60;
+        System.out.println("nTrials - " + nTrials);
         for(int nEvals : nEvalss) {
             for(int seqLength : seqLengths) {
                 double totalScore = 0;
+                List<Double> scores = new ArrayList<>();
                 for (int i = 0; i < nTrials; i++) {
                     SimplePlayerInterface player = getEvoAgent(nEvals, seqLength);
                     VaperioGameState gameState = new VaperioGameState(params);
@@ -41,14 +45,27 @@ public class EvolutionaryAgentPerformanceTest {
                         //Thread.sleep(40);
                     }
                     totalScore += gameState.getScore();
+                    scores.add(gameState.getScore());
                 }
                 System.out.println("nEvals - " + nEvals);
                 System.out.println("seqLength - " + seqLength);
                 double meanScore = totalScore / nTrials;
                 System.out.println("mean score  - " + meanScore);
-                System.out.println("nTrials - " + nTrials);
+                double variance = calculateVariance(scores, meanScore, nTrials);
+                System.out.println("variance  - " + variance);
+                System.out.println("standard deviation  - " + Math.sqrt(variance));
+
             }
         }
+    }
+
+    private static double calculateVariance(List<Double> scores, double mean, int nTrials){
+        double differenceSum = 0;
+        for(Double score : scores){
+            differenceSum += Math.pow(score - mean, 2);
+        }
+        double quotient = Math.max(nTrials - 1, 1);
+        return differenceSum / quotient;
     }
 
     public static SimplePlayerInterface getEvoAgent(int nEvals, int seqLength) {
