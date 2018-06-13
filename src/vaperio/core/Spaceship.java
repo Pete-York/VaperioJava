@@ -37,7 +37,7 @@ public class Spaceship extends Collideable implements Cloneable {
     }
 
     public Spaceship(Spaceship old){
-        super(old.getPosition(), width, height);
+        super(old.getPosition().clone(), width, height);
         this.minDrag = old.minDrag;
         this.dragFactor = old.dragFactor;
         this.dragExponent = old.dragExponent;

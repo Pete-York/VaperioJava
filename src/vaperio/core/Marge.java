@@ -36,7 +36,7 @@ public class Marge extends Collideable implements Cloneable {
     }
 
     public Marge(Marge marge) {
-        super(new FloatPoint(marge.getPosition().x, marge.getPosition().y), width, height);
+        super(marge.getPosition().clone(), width, height);
         this.speed = marge.speed;
         this.spikeSpeed = marge.spikeSpeed;
         this.returnSpeed = marge.returnSpeed;
