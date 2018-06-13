@@ -1,6 +1,5 @@
 package vaperio.test;
 
-import caveswing.design.CaveSwingGameSearchSpace;
 import evodef.AnnotatedFitnessSpace;
 import hyperopt.HyperParamTuneRunner;
 import ntbea.NTupleBanditEA;
