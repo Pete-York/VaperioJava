@@ -14,6 +14,7 @@ public class VaperioParams {
     public static final int scaleFactor = 40;
     public int width = Math.round(Math.abs(minXCoordinate) + Math.abs(maxXCoordinate)) *scaleFactor;
     public int height = Math.round(Math.abs(minYCoordinate) + Math.abs(maxYCoordinate)) * scaleFactor;
+    public int maxFrames = 10000;
 
     // Spaceship Movement
     public float minSpaceshipDrag = 0.5f;

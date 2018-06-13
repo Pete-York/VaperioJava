@@ -152,12 +152,12 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public double getScore() {
-        return juice + ralphHits * 20;
+        return juice + ralphHits * 4;
     }
 
     @Override
     public boolean isTerminal() {
-        return juice <= 0;
+        return juice <= 0 || frameCount >= gameParams.maxFrames;
     }
 
     public void setGameParams(VaperioParams vaperioParams) {
