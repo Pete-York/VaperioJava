@@ -38,7 +38,7 @@ public class EvoAgentVisTest {
             VaperioGameState viewState = (VaperioGameState) gameState.copy();
             view.setGameState(viewState).repaint();
             gameState.next(actions);
-            Thread.sleep(40);
+            //Thread.sleep(40);
         }
 
     }
@@ -52,7 +52,7 @@ public class EvoAgentVisTest {
         // setting to true may give best performance
         mutator.totalRandomChaosMutation = true;
         mutator.flipAtLeastOneValue = true;
-        mutator.pointProb = 5;
+        mutator.pointProb = 100;
 
         SimpleRMHC simpleRMHC = new SimpleRMHC();
         simpleRMHC.setSamplingRate(nResamples);
@@ -62,8 +62,8 @@ public class EvoAgentVisTest {
 
         // evoAlg = new SlidingMeanEDA();
 
-        int nEvals = 30;
-        int seqLength = 1000;
+        int nEvals = 40;
+        int seqLength = 1200;
         EvoAgent evoAgent = new EvoAgent().setEvoAlg(evoAlg, nEvals).setSequenceLength(seqLength);
         evoAgent.setDimension(new Dimension(800, 400));
         evoAgent.setUseShiftBuffer(true);
