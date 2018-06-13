@@ -3,7 +3,6 @@ package vaperio.core;
 import java.util.Random;
 
 public class Marge extends Collideable implements Cloneable {
-    private final Random random = new Random();
     private static final float width = 1.47f;
     private static final float height = 8.82f;
 
@@ -100,17 +99,16 @@ public class Marge extends Collideable implements Cloneable {
 
     private void wobble(){
         FloatPoint position = getPosition();
-        float waitDistance = position.x - wobbleTargetPosition;
+        float waitDistance = wobbleTargetPosition - position.x;
         moveTo(position.x + waitDistance * (speed / 10 / VaperioParams.frameRate), position.y);
         if(Math.abs(waitDistance) < distanceThreshold) {
-
             getWobbleTarget();
             wobbleCount  += 1;
         }
     }
 
     private void getWobbleTarget(){
-        float wobbleDistance = (float) random.nextDouble() * 0.1f;
+        float wobbleDistance = (float) Math.random() * 1f;
         wobbleTargetPosition = (waitPosition + wobbleDistance * flip);
         flip *= -1;
     }
