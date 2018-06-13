@@ -83,7 +83,7 @@ public class VaperioGameState implements AbstractGameState {
     }
 
     private void netherSwitch(int action){
-        if(action >= 18) {
+        if(action == 10) {
             isNether = !isNether;
         }
     }
@@ -147,7 +147,7 @@ public class VaperioGameState implements AbstractGameState {
 
     @Override
     public int nActions() {
-        return 32;
+        return 11;
     }
 
     @Override

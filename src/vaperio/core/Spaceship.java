@@ -72,8 +72,7 @@ public class Spaceship extends Collideable implements Cloneable {
     }
 
     private void handleMovement(int action){
-        int direction = action % 9;
-        handleThrust(direction);
+        if(action < 9) handleThrust(action);
         applyDrag();
         handleVelocity();
     }
@@ -118,8 +117,7 @@ public class Spaceship extends Collideable implements Cloneable {
     }
 
     private void handleShooting(int action){
-        if(((action >= 9 && action < 18) || (action >= 27 && action < 36))
-                && framesSinceShot >= shootRate){
+        if(action == 9 && framesSinceShot >= shootRate){
             shootBullet();
             framesSinceShot = 0;
         } else {
