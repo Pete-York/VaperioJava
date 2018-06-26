@@ -8,6 +8,7 @@ import evodef.EvoAlg;
 import ga.SimpleRMHC;
 import ggi.core.SimplePlayerInterface;
 import utilities.JEasyFrame;
+import vaperio.view.VaperioView;
 
 import java.awt.*;
 
@@ -21,19 +22,23 @@ public class EvoAgentVisTest {
         VaperioParams params = new VaperioParams();
 
 
-        // todo: how does changing the parameter settings affect AI agent performance?
+        // todo: how does changing the  parameter settings affect AI agent performance?
         // todo: Can you settings that make it really tough for the AI?
 
         VaperioGameState gameState = new VaperioGameState(params);
+        VaperioView view = new VaperioView().setGameState(gameState).setParams(params);
         String title = "Evo Agent Visual Test";
+        JEasyFrame frame = new JEasyFrame(view, title);
 
         while (!gameState.isTerminal()) {
             // get the action from the player, update the game state, and show a view
             int action = player.getAction(gameState.copy(), 0);
             // recall the action array is needed for generality for n-player games
             int[] actions = new int[]{action};
+            VaperioGameState viewState = (VaperioGameState) gameState.copy();
+            view.setGameState(viewState).repaint();
             gameState.next(actions);
-            Thread.sleep(40);
+            //Thread.sleep(40);
         }
 
     }
@@ -47,7 +52,7 @@ public class EvoAgentVisTest {
         // setting to true may give best performance
         mutator.totalRandomChaosMutation = true;
         mutator.flipAtLeastOneValue = true;
-        mutator.pointProb = 5;
+        mutator.pointProb = 100;
 
         SimpleRMHC simpleRMHC = new SimpleRMHC();
         simpleRMHC.setSamplingRate(nResamples);
@@ -57,8 +62,8 @@ public class EvoAgentVisTest {
 
         // evoAlg = new SlidingMeanEDA();
 
-        int nEvals = 30;
-        int seqLength = 1000;
+        int nEvals = 120;
+        int seqLength = 50;
         EvoAgent evoAgent = new EvoAgent().setEvoAlg(evoAlg, nEvals).setSequenceLength(seqLength);
         evoAgent.setDimension(new Dimension(800, 400));
         evoAgent.setUseShiftBuffer(true);

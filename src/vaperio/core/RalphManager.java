@@ -66,10 +66,13 @@ public class RalphManager implements Cloneable {
             ralphSpawned = false;
         } else if (levelState == LevelState.FIRST_NETHER) {
             levelState = LevelState.NORMAL_LEVEL;
+            framesSinceLastSpawn = 0;
         }
     }
 
     private boolean shouldSpawn() {
+        if(framesSinceLastSpawn < spawnTime) return false;
+
         if(levelState == LevelState.FIRST_NETHER || levelState == LevelState.FIRST_RALPH) {
             if(framesSinceLastSpawn > spawnTime * 6 && !ralphSpawned){
                 ralphSpawned = true;
@@ -78,10 +81,11 @@ public class RalphManager implements Cloneable {
                 return false;
             }
         }
+
         float timeSinceLastSpawn = framesSinceLastSpawn / VaperioParams.frameRate;
         float timeSinceLastSpawnSquared = timeSinceLastSpawn * timeSinceLastSpawn;
-        int toBeat = (int) (Math.random() * 100);
-        timeSinceLastSpawnSquared += (framesSinceStart / VaperioParams.frameRate) * 0.1f;
+        float toBeat = (float) (Math.random() * 500);
+        timeSinceLastSpawnSquared += (framesSinceStart / VaperioParams.frameRate) * 0.01f;
         return timeSinceLastSpawnSquared > toBeat;
     }
 
@@ -92,7 +96,7 @@ public class RalphManager implements Cloneable {
             case FIRST_NETHER:
                 return true;
             case NORMAL_LEVEL:
-                return(int) (Math.random() * 1) == 1;
+                return (Math.random() * 1) > 0.5f;
             default:
                 return false;
         }

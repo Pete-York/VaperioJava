@@ -106,9 +106,9 @@ public class SimpleRMHC implements EvoAlg {
                     fitBest = fitness(evaluator, bestYet, new StatSummary());
                 }
             }
-            // System.out.println(fitBest.mean() + " : " + fitMut.mean());
+             //System.out.println(fitBest.mean() + " : " + fitMut.mean());
             if (fitMut.mean() >= fitBest.mean()) {
-                // System.out.println("Updating best");
+                 //System.out.println("Updating best");
                 bestYet = mut;
                 fitBest = fitMut;
 
@@ -137,8 +137,10 @@ public class SimpleRMHC implements EvoAlg {
             }
 
         }
-        // System.out.println("Ran for: " + evaluator.nEvals());
-        // System.out.println("Sampling rate: " + nSamples);
+         //System.out.println("Ran for: " + evaluator.nEvals());
+         //System.out.println("Sampling rate: " + nSamples);
+         //System.out.println((int) fitBest.mean() + "\t " + Arrays.toString(bestYet));
+         //System.out.println("...");
         return bestYet;
     }
 

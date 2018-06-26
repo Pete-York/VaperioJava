@@ -30,7 +30,7 @@ public class Ralph extends Collideable implements Cloneable {
 
     public void next(){
         if(framesSinceShoot >= shootRate) {
-            gameState.shootRalphBullet(this.getPosition().clone());
+            gameState.shootRalphBullet(this.getPosition().clone(), isNether);
             framesSinceShoot = 0;
         }
         framesSinceShoot++;
